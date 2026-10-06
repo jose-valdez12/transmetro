@@ -7,5 +7,30 @@ use Illuminate\Database\Eloquent\Model;
 
 class Usuario extends Model
 {
-    use HasFactory;
+ use HasFactory;
+
+    protected $table = 'usuarios';
+
+    protected $fillable = [
+        'nombre',
+        'correo',
+        'password',
+        'rol',
+        'estado'
+    ];
+
+    protected $hidden = [
+        'password',
+        'remember_token'
+    ];
+
+    public function getAuthPasswordName()
+    {
+        return 'password';
+    }
+
+    public function getEmailForPasswordReset()
+    {
+        return $this->correo;
+    }
 }

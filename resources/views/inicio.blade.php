@@ -16,4 +16,8 @@
         relacionada con el servicio de transporte.
     </p>
 
+
+    <p>
+        <a href="{{ route('municipios.index') }}">Gestión de municipios</a>
+    </p>
 @endsection

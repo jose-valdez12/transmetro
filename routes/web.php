@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MunicipioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,3 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('inicio');
 });
+
+
+
+Route::resource('municipios', MunicipioController::class);

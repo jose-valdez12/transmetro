@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MunicipioController;
+use App\Http\Controllers\LineaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,3 +30,12 @@ route::get('/municipios/{municipios}/edit', [MunicipioController::class, 'edit']
 route::put('/municipios/{municipios}', [MunicipioController::class, 'update'])->name('municipios.update');
 route::delete('/municipios/{municipios}', [MunicipioController::class, 'destroy'])->name('municipios.destroy');
 
+
+//Rutas de las lineas
+route::get('/lineas', [LineaController::class, 'index'])->name('lineas.index');
+route::get('/lineas/create', [LineaController::class, 'create'])->name('lineas.create');
+route::post('/lineas', [LineaController::class, 'store'])->name('lineas.store');
+route::get('/lineas/{linea}', [LineaController::class, 'show'])->name('lineas.show');
+route::get('/lineas/{linea}/edit', [LineaController::class, 'edit'])->name('lineas.edit');
+route::put('/lineas/{linea}', [LineaController::class, 'update'])->name('lineas.update');
+route::delete('/lineas/{linea}', [LineaController::class, 'destroy'])->name('lineas.destroy');

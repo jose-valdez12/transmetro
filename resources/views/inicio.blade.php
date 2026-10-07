@@ -20,4 +20,7 @@
     <p>
         <a href="{{ route('municipios.index') }}">Gestión de municipios</a>
     </p>
+    <p>
+        <a href="{{ route('lineas.index') }}">Gestión de líneas</a>
+    </p>
 @endsection

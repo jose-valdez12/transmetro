@@ -1,6 +1,7 @@
 
 @extends('layouts.app')
 
+
 @section('title', 'Municipios')
 
 @section('content')
@@ -14,28 +15,29 @@
         <a href="{{ route('municipios.create') }}">Registrar municipio</a>
     </p>
 
-    <table border="1" cellpadding="10" cellspacing="0">
+    <table border="1" cellpadding="20" cellspacing="0">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Nombre</th>
+                <th>Estado</th>
                 <th>Departamento</th>
-                <th>Acciones</th>
             </tr>
         </thead>
 
         <tbody>
-            @forelse ($municipios as $municipio)
+            @forelse ($municipios as $municipios)
                 <tr>
-                    <td>{{ $municipio->id }}</td>
-                    <td>{{ $municipio->nombre }}</td>
-                    <td>{{ $municipio->departamento }}</td>
+                    <td>{{ $municipios->id_municipio }}</td>
+                    <td>{{ $municipios->nombre }}</td>
+                    <td>{{ $municipios->estado ? 'Activo' : 'Inactivo' }}</td>
+                    <td>{{ $municipios->departamento }}</td>
                     <td>
-                        <a href="{{ route('municipios.show', $municipio) }}">Ver</a>
+                        <a href="{{ route('municipios.show', $municipios) }}">Ver</a>
                         |
-                        <a href="{{ route('municipios.edit', $municipio) }}">Editar</a>
+                        <a href="{{ route('municipios.edit', $municipios) }}">Editar</a>
                         |
-                        <form action="{{ route('municipios.destroy', $municipio) }}"
+                        <form action="{{ route('municipios.destroy', $municipios) }}"
                               method="POST"
                               style="display:inline;">
                             @csrf

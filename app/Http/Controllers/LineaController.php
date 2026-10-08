@@ -10,7 +10,7 @@ class LineaController extends Controller
 {
     public function index()
     {
-        $lineas = Linea::with('municipios')->get();
+        $lineas = Linea::with('municipio')->get();
 
         return view('lineas.index', compact('lineas'));
     }
@@ -19,7 +19,7 @@ class LineaController extends Controller
     {
         $municipios = Municipio::where('estado', true)->get();
 
-        return view('lineas.create', compact('municipios'));
+        return view('lineas.create', compact('municipio'));
     }
 
     public function store(Request $request)
@@ -44,7 +44,7 @@ class LineaController extends Controller
 
     public function show(Linea $linea)
     {
-        $linea->load('municipios');
+        $linea->load('municipio');
 
         return view('lineas.show', compact('linea'));
     }
@@ -53,7 +53,7 @@ class LineaController extends Controller
     {
         $municipios = Municipio::where('estado', true)->get();
 
-        return view('lineas.edit', compact('linea', 'municipios'));
+        return view('lineas.edit', compact('linea', 'municipio'));
     }
 
     public function update(Request $request, Linea $linea)

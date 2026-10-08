@@ -20,7 +20,7 @@
 
     @if ($lineas->count() > 0)
 
-        <table border="1" cellpadding="8" cellspacing="0">
+        <table border="3" cellpadding="8" cellspacing="0">
 
             <thead>
                 <tr>
@@ -103,6 +103,9 @@
 
     <a href="{{ route('municipios.index') }}">
         Ir a Municipios
+    </a><br>
+    <a href="{{ url('/') }}">
+        Volver al inicio
     </a>
 
 @endsection

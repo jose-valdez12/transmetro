@@ -15,7 +15,7 @@
         <a href="{{ route('municipios.create') }}">Registrar municipio</a>
     </p>
 
-    <table border="1" cellpadding="20" cellspacing="0">
+    <table border="3" cellpadding="8" cellspacing="0">
         <thead>
             <tr>
                 <th>ID</th>

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MunicipioController;
 use App\Http\Controllers\LineaController;
+use App\Http\Controllers\EstacionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,3 +40,13 @@ route::get('/lineas/{linea}', [LineaController::class, 'show'])->name('lineas.sh
 route::get('/lineas/{linea}/edit', [LineaController::class, 'edit'])->name('lineas.edit');
 route::put('/lineas/{linea}', [LineaController::class, 'update'])->name('lineas.update');
 route::delete('/lineas/{linea}', [LineaController::class, 'destroy'])->name('lineas.destroy');
+
+
+//Rutas de las estaciones
+route::get('/estaciones', [EstacionController::class, 'index'])->name('estaciones.index');
+route::get('/estaciones/create', [EstacionController::class, 'create'])->name('estaciones.create');
+route::post('/estaciones', [EstacionController::class, 'store'])->name('estaciones.store');
+route::get('/estaciones/{estacion}', [EstacionController::class, 'show'])->name('estaciones.show');
+route::get('/estaciones/{estacion}/edit', [EstacionController::class, 'edit'])->name('estaciones.edit');
+route::put('/estaciones/{estacion}', [EstacionController::class, 'update'])->name('estaciones.update');
+route::delete('/estaciones/{estacion}', [EstacionController::class, 'destroy'])->name('estaciones.destroy');

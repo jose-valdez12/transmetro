@@ -23,4 +23,9 @@
     <p>
         <a href="{{ route('lineas.index') }}">Gestión de líneas</a>
     </p>
+
+    <p>
+        <a href="{{ route('estaciones.index') }}">Gestión de estaciones</a>
+    </p>
+
 @endsection

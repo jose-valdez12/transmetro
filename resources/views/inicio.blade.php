@@ -28,4 +28,8 @@
         <a href="{{ route('estaciones.index') }}">Gestión de estaciones</a>
     </p>
 
+    <p>
+        <a href="{{ route('accesos.index') }}">Gestión de accesos</a>
+    </p>
+
 @endsection

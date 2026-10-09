@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MunicipioController;
 use App\Http\Controllers\LineaController;
 use App\Http\Controllers\EstacionController;
+use App\Http\Controllers\AccesoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,3 +51,13 @@ route::get('/estaciones/{estacion}', [EstacionController::class, 'show'])->name(
 route::get('/estaciones/{estacion}/edit', [EstacionController::class, 'edit'])->name('estaciones.edit');
 route::put('/estaciones/{estacion}', [EstacionController::class, 'update'])->name('estaciones.update');
 route::delete('/estaciones/{estacion}', [EstacionController::class, 'destroy'])->name('estaciones.destroy');
+
+
+//Rutas de Accesos
+route::get('/accesos', [AccesoController::class, 'index'])->name('accesos.index');
+route::get('/accesos/create', [AccesoController::class, 'create'])->name('accesos.create');
+route::post('/accesos', [AccesoController::class, 'store'])->name('accesos.store');
+route::get('/accesos/{acceso}/edit', [AccesoController::class, 'edit'])->name('accesos.edit');
+route::put('/accesos/{acceso}', [AccesoController::class, 'update'])->name('accesos.update');
+route::delete('/accesos/{acceso}', [AccesoController::class, 'destroy'])->name('accesos.destroy');
+route::get('/accesos/{acceso}', [AccesoController::class, 'show'])->name('accesos.show');

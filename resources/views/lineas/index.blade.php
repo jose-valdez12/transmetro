@@ -1,111 +1,124 @@
+
 @extends('layouts.app')
 
 @section('title', 'Líneas')
 
 @section('content')
 
-    <h2>Líneas de transporte</h2>
+<div class="container-fluid">
 
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Líneas de transporte</h2>
+
+        <a href="{{ route('lineas.create') }}" class="btn btn-primary">
+            <i class="bi bi-plus-circle me-1"></i>
+            Registrar nueva línea
+        </a>
+    </div>
+
+    {{-- Mensaje de confirmación --}}
     @if (session('success'))
-        <p style="color: green;">
+        <div class="alert alert-success">
             {{ session('success') }}
-        </p>
+        </div>
     @endif
 
-    <a href="{{ route('lineas.create') }}">
-        Registrar nueva línea
-    </a>
+    {{-- Tabla de líneas --}}
+    <div class="card">
+        <div class="card-header">
+            Listado de líneas de transporte
+        </div>
 
-    <br><br>
+        <div class="card-body">
 
-    @if ($lineas->count() > 0)
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
 
-        <table border="3" cellpadding="8" cellspacing="0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Distancia total</th>
+                            <th>Municipio</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
 
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Distancia total</th>
-                    <th>Municipio</th>
-                    <th>Estado</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
+                    <tbody>
+                        @forelse ($lineas as $linea)
+                            <tr>
+                                <td>{{ $linea->id_linea }}</td>
 
-            <tbody>
+                                <td>{{ $linea->nombre }}</td>
 
-                @foreach ($lineas as $linea)
+                                <td>{{ $linea->distancia_total }} km</td>
 
-                    <tr>
-                        <td>{{ $linea->id_linea }}</td>
+                                <td>
+                                    {{ $linea->municipio->nombre ?? 'Sin municipio' }}
+                                </td>
 
-                        <td>{{ $linea->nombre }}</td>
+                                <td>
+                                    @if ($linea->estado)
+                                        <span class="badge bg-success">Activo</span>
+                                    @else
+                                        <span class="badge bg-danger">Inactivo</span>
+                                    @endif
+                                </td>
 
-                        <td>{{ $linea->distancia_total }} km</td>
+                                <td>
+                                    <a href="{{ route('lineas.show', $linea->id_linea) }}"
+                                       class="btn btn-info btn-sm">
+                                        Ver
+                                    </a>
 
-                        <td>
-                            {{ $linea->municipio->nombre ?? 'Sin municipio' }}
-                        </td>
+                                    <a href="{{ route('lineas.edit', $linea->id_linea) }}"
+                                       class="btn btn-warning btn-sm">
+                                        Editar
+                                    </a>
 
-                        <td>
-                            @if ($linea->estado)
-                                Activo
-                            @else
-                                Inactivo
-                            @endif
-                        </td>
+                                    <form action="{{ route('lineas.destroy', $linea->id_linea) }}"
+                                          method="POST"
+                                          class="d-inline"
+                                          onsubmit="return confirm('¿Está seguro de eliminar esta línea?');">
 
-                        <td>
+                                        @csrf
+                                        @method('DELETE')
 
-                            <a href="{{ route('lineas.show', $linea->id_linea) }}">
-                                Ver
-                            </a>
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            Eliminar
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="text-center">
+                                    No hay líneas registradas.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
 
-                            |
+                </table>
+            </div>
 
-                            <a href="{{ route('lineas.edit', $linea->id_linea) }}">
-                                Editar
-                            </a>
+        </div>
+    </div>
 
-                            |
+    <div class="mt-3 d-flex gap-2">
+        <a href="{{ route('municipios.index') }}" class="btn btn-outline-primary">
+            <i class="bi bi-geo-alt me-1"></i>
+            Ir a Municipios
+        </a>
 
-                            <form action="{{ route('lineas.destroy', $linea->id_linea) }}"
-                                  method="POST"
-                                  style="display:inline;">
+        <a href="{{ url('/') }}" class="btn btn-secondary">
+            <i class="bi bi-house-door me-1"></i>
+            Volver al inicio
+        </a>
+    </div>
 
-                                @csrf
-                                @method('DELETE')
-
-                                <button type="submit"
-                                        onclick="return confirm('¿Está seguro de eliminar esta línea?')">
-                                    Eliminar
-                                </button>
-
-                            </form>
-
-                        </td>
-                    </tr>
-
-                @endforeach
-
-            </tbody>
-
-        </table>
-
-    @else
-
-        <p>No hay líneas registradas.</p>
-
-    @endif
-
-    <br>
-
-    <a href="{{ route('municipios.index') }}">
-        Ir a Municipios
-    </a><br>
-    <a href="{{ url('/') }}">
-        Volver al inicio
-    </a>
+</div>
 
 @endsection
+

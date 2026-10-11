@@ -1,109 +1,140 @@
 @extends('layouts.app')
 
-@section('title', 'Editar estación')
+@section('title', 'Editar Estación')
 
 @section('content')
+<div class="container-fluid py-4">
 
-<div class="container">
-
-    <h1>Editar estación</h1>
-
-    @if ($errors->any())
-        <ul style="color: red;">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    @endif
-
-    <form action="{{ route('estaciones.update', $estacion->id_estacion) }}"
-          method="POST">
-
-        @csrf
-        @method('PUT')
-
-        <div class="mb-3">
-            <label for="nombre" class="form-label">
-                Nombre de la estación:
-            </label>
-
-            <input type="text"
-                   class="form-control"
-                   id="nombre"
-                   name="nombre"
-                   value="{{ old('nombre', $estacion->nombre) }}"
-                   required>
-        </div>
-
-        <div class="mb-3">
-            <label for="direccion" class="form-label">
-                Dirección:
-            </label>
-
-            <input type="text"
-                   class="form-control"
-                   id="direccion"
-                   name="direccion"
-                   value="{{ old('direccion', $estacion->direccion) }}"
-                   required>
-        </div>
-
-        <div class="mb-3">
-            <label for="id_municipio" class="form-label">
-                Municipio:
-            </label>
-
-            <select class="form-select"
-                    id="id_municipio"
-                    name="id_municipio"
-                    required>
-
-                <option value="">Seleccione un municipio</option>
-
-                @foreach ($municipios as $municipio)
-                    <option value="{{ $municipio->id_municipio }}"
-                        {{ old('id_municipio', $estacion->id_municipio) == $municipio->id_municipio ? 'selected' : '' }}>
-                        {{ $municipio->nombre }}
-                    </option>
-                @endforeach
-
-            </select>
-        </div>
-
-        <div class="mb-3">
-            <label for="estado" class="form-label">
-                Estado:
-            </label>
-
-            <select class="form-select"
-                    id="estado"
-                    name="estado"
-                    required>
-
-                <option value="1"
-                    {{ old('estado', $estacion->estado) == 1 ? 'selected' : '' }}>
-                    Activo
-                </option>
-
-                <option value="0"
-                    {{ old('estado', $estacion->estado) == 0 ? 'selected' : '' }}>
-                    Inactivo
-                </option>
-
-            </select>
-        </div>
-
-        <button type="submit" class="btn btn-primary">
-            Actualizar estación
-        </button>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold">
+            <i class="bi bi-pencil-square"></i>
+            Editar Estación
+        </h3>
 
         <a href="{{ route('estaciones.index') }}"
            class="btn btn-secondary">
-            Cancelar
+            <i class="bi bi-arrow-left"></i> Volver
         </a>
+    </div>
 
-    </form>
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-warning">
+            <h5 class="mb-0">Modificar datos de la estación</h5>
+        </div>
 
+        <div class="card-body">
+
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <strong>Corrige los siguientes errores:</strong>
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <form action="{{ route('estaciones.update', $estacion->id_estacion) }}"
+                  method="POST">
+                @csrf
+                @method('PUT')
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <label class="form-label">Nombre de la estación</label>
+                        <input type="text"
+                               name="nombre"
+                               class="form-control"
+                               value="{{ old('nombre', $estacion->nombre) }}"
+                               required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Municipio</label>
+                        <select name="id_municipio"
+                                class="form-select"
+                                required>
+                            <option value="">Seleccione un municipio</option>
+
+                            @foreach ($municipios as $municipio)
+                                <option value="{{ $municipio->id_municipio }}"
+                                    {{ old('id_municipio', $estacion->id_municipio) == $municipio->id_municipio ? 'selected' : '' }}>
+                                    {{ $municipio->nombre }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-md-12">
+                        <label class="form-label">Dirección</label>
+                        <input type="text"
+                               name="direccion"
+                               class="form-control"
+                               value="{{ old('direccion', $estacion->direccion) }}"
+                               required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Capacidad máxima</label>
+                        <input type="number"
+                               name="capacidad_maxima"
+                               class="form-control"
+                               min="1"
+                               value="{{ old('capacidad_maxima', $estacion->capacidad_maxima) }}"
+                               required>
+                        <small class="text-muted">
+                            Capacidad máxima permitida en la estación.
+                        </small>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Pasajeros actuales</label>
+                        <input type="number"
+                               name="pasajeros_actuales"
+                               class="form-control"
+                               min="0"
+                               value="{{ old('pasajeros_actuales', $estacion->pasajeros_actuales) }}"
+                               required>
+                        <small class="text-muted">
+                            Pasajeros que esperan un bus actualmente.
+                        </small>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Estado</label>
+                        <select name="estado"
+                                class="form-select"
+                                required>
+                            <option value="1"
+                                {{ old('estado', $estacion->estado) == '1' ? 'selected' : '' }}>
+                                Activa
+                            </option>
+                            <option value="0"
+                                {{ old('estado', $estacion->estado) == '0' ? 'selected' : '' }}>
+                                Inactiva
+                            </option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="mt-4 d-flex gap-2">
+                    <button type="submit" class="btn btn-warning">
+                        <i class="bi bi-check-circle"></i>
+                        Actualizar estación
+                    </button>
+
+                    <a href="{{ route('estaciones.index') }}"
+                       class="btn btn-outline-secondary">
+                        Cancelar
+                    </a>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
 </div>
-
 @endsection

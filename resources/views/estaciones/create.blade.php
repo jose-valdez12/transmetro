@@ -1,160 +1,139 @@
- @extends('layouts.app')
+@extends('layouts.app')
 
-@section('title', 'Registrar estación')
+@section('title', 'Registrar Estación')
 
 @section('content')
-<div class="container-fluid">
+<div class="container-fluid py-4">
 
-    <div class="mb-4">
-        <h2 class="mb-1">Registrar estación</h2>
-        <p class="text-muted mb-0">
-            Ingresa la información necesaria para registrar una nueva estación de transporte.
-        </p>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold">
+            <i class="bi bi-geo-alt"></i>
+            Registrar Estación
+        </h3>
+
+        <a href="{{ route('estaciones.index') }}"
+           class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Volver
+        </a>
     </div>
 
-    {{-- Mensajes de error --}}
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <strong>Verifica los siguientes campos:</strong>
-            <ul class="mb-0 mt-2">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
-    <div class="card shadow-sm">
-        <div class="card-header">
-            <i class="bi bi-train-front me-2"></i>
-            Información de la estación
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Datos de la estación</h5>
         </div>
 
         <div class="card-body">
-            <form action="{{ route('estaciones.store') }}" method="POST">
+
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <strong>Corrige los siguientes errores:</strong>
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <form action="{{ route('estaciones.store') }}"
+                  method="POST">
                 @csrf
 
-                <div class="row">
+                <div class="row g-3">
 
-                    {{-- Nombre de la estación --}}
-                    <div class="col-md-6 mb-3">
-                        <label for="nombre" class="form-label">
-                            Nombre de la estación
-                        </label>
-
-                        <input
-                            type="text"
-                            class="form-control @error('nombre') is-invalid @enderror"
-                            id="nombre"
-                            name="nombre"
-                            value="{{ old('nombre') }}"
-                            placeholder="Ej. Estación Central"
-                            maxlength="100"
-                            required
-                        >
-
-                        @error('nombre')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                    <div class="col-md-6">
+                        <label class="form-label">Nombre de la estación</label>
+                        <input type="text"
+                               name="nombre"
+                               class="form-control"
+                               value="{{ old('nombre') }}"
+                               required>
                     </div>
 
-                    {{-- Dirección --}}
-                    <div class="col-md-6 mb-3">
-                        <label for="direccion" class="form-label">
-                            Dirección
-                        </label>
-
-                        <input
-                            type="text"
-                            class="form-control @error('direccion') is-invalid @enderror"
-                            id="direccion"
-                            name="direccion"
-                            value="{{ old('direccion') }}"
-                            placeholder="Ingresa la dirección de la estación"
-                            maxlength="255"
-                            required
-                        >
-
-                        @error('direccion')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    {{-- Municipio --}}
-                    <div class="col-md-6 mb-3">
-                        <label for="id_municipio" class="form-label">
-                            Municipio
-                        </label>
-
-                        <select
-                            class="form-select @error('id_municipio') is-invalid @enderror"
-                            id="id_municipio"
-                            name="id_municipio"
-                            required
-                        >
+                    <div class="col-md-6">
+                        <label class="form-label">Municipio</label>
+                        <select name="id_municipio"
+                                class="form-select"
+                                required>
                             <option value="">Seleccione un municipio</option>
 
                             @foreach ($municipios as $municipio)
-                                <option
-                                    value="{{ $municipio->id_municipio }}"
-                                    {{ old('id_municipio') == $municipio->id_municipio ? 'selected' : '' }}
-                                >
+                                <option value="{{ $municipio->id_municipio }}"
+                                    {{ old('id_municipio') == $municipio->id_municipio ? 'selected' : '' }}>
                                     {{ $municipio->nombre }}
                                 </option>
                             @endforeach
                         </select>
-
-                        @error('id_municipio')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
                     </div>
 
-                    {{-- Estado --}}
-                    <div class="col-md-6 mb-3">
-                        <label for="estado" class="form-label">
-                            Estado de la estación
-                        </label>
+                    <div class="col-md-12">
+                        <label class="form-label">Dirección</label>
+                        <input type="text"
+                               name="direccion"
+                               class="form-control"
+                               value="{{ old('direccion') }}"
+                               required>
+                    </div>
 
-                        <select
-                            class="form-select @error('estado') is-invalid @enderror"
-                            id="estado"
-                            name="estado"
-                            required
-                        >
-                            <option value="1" {{ old('estado', '1') == '1' ? 'selected' : '' }}>
+                    <div class="col-md-6">
+                        <label class="form-label">Capacidad máxima</label>
+                        <input type="number"
+                               name="capacidad_maxima"
+                               class="form-control"
+                               min="1"
+                               value="{{ old('capacidad_maxima', 100) }}"
+                               required>
+                        <small class="text-muted">
+                            Cantidad máxima de pasajeros que puede albergar la estación.
+                        </small>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Pasajeros actuales</label>
+                        <input type="number"
+                               name="pasajeros_actuales"
+                               class="form-control"
+                               min="0"
+                               value="{{ old('pasajeros_actuales', 0) }}"
+                               required>
+                        <small class="text-muted">
+                            Cantidad de pasajeros que esperan transporte.
+                        </small>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Estado</label>
+                        <select name="estado"
+                                class="form-select"
+                                required>
+                            <option value="1"
+                                {{ old('estado', '1') == '1' ? 'selected' : '' }}>
                                 Activa
                             </option>
-
-                            <option value="0" {{ old('estado') == '0' ? 'selected' : '' }}>
+                            <option value="0"
+                                {{ old('estado') == '0' ? 'selected' : '' }}>
                                 Inactiva
                             </option>
                         </select>
-
-                        @error('estado')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
                     </div>
 
                 </div>
 
-                <hr class="my-4">
-
-                {{-- Botones --}}
-                <div class="d-flex flex-wrap gap-2">
+                <div class="mt-4 d-flex gap-2">
                     <button type="submit" class="btn btn-primary">
-                        <i class="bi bi-save me-1"></i>
+                        <i class="bi bi-save"></i>
                         Guardar estación
                     </button>
 
-                    <a href="{{ route('estaciones.index') }}" class="btn btn-secondary">
-                        <i class="bi bi-x-circle me-1"></i>
+                    <a href="{{ route('estaciones.index') }}"
+                       class="btn btn-outline-secondary">
                         Cancelar
                     </a>
                 </div>
 
             </form>
+
         </div>
     </div>
-
 </div>
 @endsection

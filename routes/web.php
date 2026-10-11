@@ -7,6 +7,7 @@ use App\Http\Controllers\EstacionController;
 use App\Http\Controllers\AccesoController;
 use App\Http\Controllers\BusController;
 use App\Http\Controllers\AsignacionBusLineaController;
+use App\Http\Controllers\RecorridoController;
 
 
 
@@ -88,3 +89,13 @@ route::get('/asignacion-bus/{asignacion}', [AsignacionBusLineaController::class,
 route::get('/asignacion-bus/{asignacion}/edit', [AsignacionBusLineaController::class, 'edit'])->name('asignacion-bus.edit');
 route::put('/asignacion-bus/{asignacion}', [AsignacionBusLineaController::class, 'update'])->name('asignacion-bus.update');
 route::delete('/asignacion-bus/{asignacion}', [AsignacionBusLineaController::class, 'destroy'])->name('asignacion-bus.destroy');
+
+
+//Rutas de Recorridos
+route::get('/recorridos', [RecorridoController::class, 'index'])->name('recorridos.index');
+route::get('/recorridos/create', [RecorridoController::class, 'create'])->name('recorridos.create');
+route::post('/recorridos', [RecorridoController::class, 'store'])->name('recorridos.store');
+route::get('/recorridos/{recorrido}', [RecorridoController::class, 'show'])->name('recorridos.show');
+route::get('/recorridos/{recorrido}/edit', [RecorridoController::class, 'edit'])->name('recorridos.edit');
+route::put('/recorridos/{recorrido}', [RecorridoController::class, 'update'])->name('recorridos.update');
+route::delete('/recorridos/{recorrido}', [RecorridoController::class, 'destroy'])->name('recorridos.destroy');

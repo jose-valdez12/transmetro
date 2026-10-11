@@ -26,7 +26,7 @@
         <div class="container-fluid px-lg-4">
 
             <a class="navbar-brand fw-bold" href="{{ url('/') }}">
-                <i class="bi bi-bus-front-fill me-2"></i>
+
                 TRANSMETRO
             </a>
 
@@ -51,7 +51,7 @@
 
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('/municipios') }}">
-                            Municipios
+                            Municipalidades
                         </a>
                     </li>
 
@@ -70,6 +70,30 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('/accesos') }}">
                             Accesos
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="">
+                            Buses
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            Recorridos
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            Alertas
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            Reportes
                         </a>
                     </li>
 
@@ -97,7 +121,7 @@
         <div class="container-fluid px-lg-4">
             Sistema de Gestión Transmetro
             <span class="mx-2">|</span>
-            Proyecto académico
+
         </div>
     </footer>
 
@@ -105,4 +129,4 @@
 
 </body>
 </html>
-```
+

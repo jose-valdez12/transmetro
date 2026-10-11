@@ -97,6 +97,12 @@
                         </a>
                     </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/alertas') }}">
+                            Alertas
+                        </a>
+                    </li>
+
                 </ul>
             </div>
 

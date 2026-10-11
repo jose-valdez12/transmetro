@@ -9,23 +9,9 @@ use App\Http\Controllers\BusController;
 use App\Http\Controllers\AsignacionBusLineaController;
 use App\Http\Controllers\RecorridoController;
 use App\Http\Controllers\VisitaEstacionController;
+use App\Http\Controllers\AlertaController;
 
-
-
-
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-
+//Rutas de todas las vistas de la aplicacion.
 
 Route::get('/', function () {
     return view('inicio');
@@ -109,3 +95,13 @@ route::get('/visitas/{visita}', [VisitaEstacionController::class, 'show'])->name
 route::get('/visitas/{visita}/edit', [VisitaEstacionController::class, 'edit'])->name('visitas.edit');
 route::put('/visitas/{visita}', [VisitaEstacionController::class, 'update'])->name('visitas.update');
 route::delete('/visitas/{visita}', [VisitaEstacionController::class, 'destroy'])->name('visitas.destroy');
+
+
+//Rutas de Alertas
+route::get('/alertas', [AlertaController::class, 'index'])->name('alertas.index');
+route::get('/alertas/create', [AlertaController::class, 'create'])->name('alertas.create');
+route::post('/alertas', [AlertaController::class, 'store'])->name('alertas.store');
+route::get('/alertas/{alerta}', [AlertaController::class, 'show'])->name('alertas.show');
+route::get('/alertas/{alerta}/edit', [AlertaController::class, 'edit'])->name('alertas.edit');
+route::put('/alertas/{alerta}', [AlertaController::class, 'update'])->name('alertas.update');
+route::delete('/alertas/{alerta}', [AlertaController::class, 'destroy'])->name('alertas.destroy');

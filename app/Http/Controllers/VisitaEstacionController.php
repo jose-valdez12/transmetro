@@ -43,67 +43,97 @@ class VisitaEstacionController extends Controller
     }
 
     // Guardar una visita
-    public function store(Request $request)
-    {
-        $datos = $request->validate([
-            'id_recorrido' => 'required|exists:recorridos,id_recorrido',
-            'id_estacion' => 'required|exists:estaciones,id_estacion',
-            'fecha_hora_llegada' => 'required|date',
-            'fecha_hora_salida' => 'nullable|date|after_or_equal:fecha_hora_llegada',
-            'cantidad_pasajeros' => 'required|integer|min:0'
-        ]);
+   public function store(Request $request)
+{
+    $datos = $request->validate([
+        'id_recorrido' => 'required|exists:recorridos,id_recorrido',
+        'id_estacion' => 'required|exists:estaciones,id_estacion',
+        'fecha_hora_llegada' => 'required|date',
+        'fecha_hora_salida' => 'nullable|date|after_or_equal:fecha_hora_llegada',
+        'cantidad_pasajeros' => 'required|integer|min:0'
+    ]);
 
-        $recorrido = Recorrido::with('bus')
-            ->findOrFail($datos['id_recorrido']);
+    // Buscar recorrido y bus
+    $recorrido = Recorrido::with('bus')
+        ->findOrFail($datos['id_recorrido']);
 
-        if ($recorrido->estado !== 'En curso') {
-            return back()->withInput()->withErrors([
-                'id_recorrido' => 'Solo se pueden registrar visitas en recorridos en curso.'
+    // Solo permitir recorridos en curso
+    if ($recorrido->estado !== 'En curso') {
+        return back()
+            ->withInput()
+            ->withErrors([
+                'id_recorrido' =>
+                'Solo se pueden registrar visitas en recorridos en curso.'
             ]);
-        }
-
-        // Verificar que la estación pertenezca a la línea
-        $pertenece = DB::table('linea_estacion')
-            ->where('id_linea', $recorrido->id_linea)
-            ->where('id_estacion', $datos['id_estacion'])
-            ->exists();
-
-        if (!$pertenece) {
-            return back()->withInput()->withErrors([
-                'id_estacion' => 'La estación seleccionada no pertenece a la línea del recorrido.'
-            ]);
-        }
-
-        // Comprobar capacidad máxima del bus
-        if ($datos['cantidad_pasajeros'] > $recorrido->bus->capacidad_maxima) {
-            return back()->withInput()->withErrors([
-                'cantidad_pasajeros' => 'La cantidad de pasajeros supera la capacidad máxima del bus.'
-            ]);
-        }
-
-        // Calcular ocupación del bus
-        $capacidad = $recorrido->bus->capacidad_maxima;
-        $ocupacion = $capacidad > 0
-            ? ($datos['cantidad_pasajeros'] / $capacidad) * 100
-            : 0;
-
-        // Regla: menos del 25 % de ocupación
-        if ($ocupacion < 25) {
-
-            // Aplicar cinco minutos adicionales a la salida registrada
-            if (!empty($datos['fecha_hora_salida'])) {
-                $datos['fecha_hora_salida'] = Carbon::parse(
-                    $datos['fecha_hora_salida']
-                )->addMinutes(5)->format('Y-m-d H:i:s');
-            }
-        }
-
-        VisitaEstacion::create($datos);
-
-        return redirect()
-            ->route('visitas.index')
-            ->with('success', 'Visita registrada correctamente.');
     }
+
+    // Comprobar que la estación pertenece a la línea
+    $pertenece = DB::table('linea_estacion')
+        ->where('id_linea', $recorrido->id_linea)
+        ->where('id_estacion', $datos['id_estacion'])
+        ->exists();
+
+    if (!$pertenece) {
+        return back()
+            ->withInput()
+            ->withErrors([
+                'id_estacion' =>
+                'La estación seleccionada no pertenece a la línea del recorrido.'
+            ]);
+    }
+
+    // Verificar capacidad del bus
+    $capacidad = $recorrido->bus->capacidad_maxima;
+
+    if ($capacidad <= 0) {
+        return back()
+            ->withInput()
+            ->withErrors([
+                'id_recorrido' =>
+                'El bus debe tener una capacidad máxima mayor que cero.'
+            ]);
+    }
+
+    if ($datos['cantidad_pasajeros'] > $capacidad) {
+        return back()
+            ->withInput()
+            ->withErrors([
+                'cantidad_pasajeros' =>
+                'La cantidad de pasajeros supera la capacidad máxima del bus.'
+            ]);
+    }
+
+    // Calcular porcentaje de ocupación
+    $ocupacion = ($datos['cantidad_pasajeros'] / $capacidad) * 100;
+
+    // Regla del 25%: esperar al menos 5 minutos
+    if ($ocupacion < 25 && !empty($datos['fecha_hora_salida'])) {
+
+        $llegada = Carbon::parse($datos['fecha_hora_llegada']);
+        $salida = Carbon::parse($datos['fecha_hora_salida']);
+
+        $salidaMinima = $llegada->copy()->addMinutes(5);
+
+        if ($salida->lt($salidaMinima)) {
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'fecha_hora_salida' =>
+                    'El bus tiene una ocupación inferior al 25%. '
+                    . 'Debe esperar al menos 5 minutos en la estación. '
+                    . 'La hora mínima de salida es '
+                    . $salidaMinima->format('d/m/Y H:i') . '.'
+                ]);
+        }
+    }
+
+    // Guardar visita sin modificar la hora de salida
+    VisitaEstacion::create($datos);
+
+    return redirect()
+        ->route('visitas.index')
+        ->with('success', 'Visita registrada correctamente.');
+}
 
     // Mostrar detalles de una visita
     public function show($id)
@@ -135,45 +165,88 @@ class VisitaEstacionController extends Controller
     }
 
     // Actualizar una visita
-    public function update(Request $request, $id)
-    {
-        $visita = VisitaEstacion::findOrFail($id);
+   public function update(Request $request, $id)
+{
+    $visita = VisitaEstacion::findOrFail($id);
 
-        $datos = $request->validate([
-            'id_recorrido' => 'required|exists:recorridos,id_recorrido',
-            'id_estacion' => 'required|exists:estaciones,id_estacion',
-            'fecha_hora_llegada' => 'required|date',
-            'fecha_hora_salida' => 'nullable|date|after_or_equal:fecha_hora_llegada',
-            'cantidad_pasajeros' => 'required|integer|min:0'
-        ]);
+    $datos = $request->validate([
+        'id_recorrido' => 'required|exists:recorridos,id_recorrido',
+        'id_estacion' => 'required|exists:estaciones,id_estacion',
+        'fecha_hora_llegada' => 'required|date',
+        'fecha_hora_salida' => 'nullable|date|after_or_equal:fecha_hora_llegada',
+        'cantidad_pasajeros' => 'required|integer|min:0'
+    ]);
 
-        $recorrido = Recorrido::with('bus')
-            ->findOrFail($datos['id_recorrido']);
+    $recorrido = Recorrido::with('bus')
+        ->findOrFail($datos['id_recorrido']);
 
-        // Validar pertenencia de la estación
-        $pertenece = DB::table('linea_estacion')
-            ->where('id_linea', $recorrido->id_linea)
-            ->where('id_estacion', $datos['id_estacion'])
-            ->exists();
+    // Comprobar que la estación pertenece a la línea
+    $pertenece = DB::table('linea_estacion')
+        ->where('id_linea', $recorrido->id_linea)
+        ->where('id_estacion', $datos['id_estacion'])
+        ->exists();
 
-        if (!$pertenece) {
-            return back()->withInput()->withErrors([
-                'id_estacion' => 'La estación no pertenece a la línea seleccionada.'
+    if (!$pertenece) {
+        return back()
+            ->withInput()
+            ->withErrors([
+                'id_estacion' =>
+                'La estación seleccionada no pertenece a la línea del recorrido.'
             ]);
-        }
-
-        if ($datos['cantidad_pasajeros'] > $recorrido->bus->capacidad_maxima) {
-            return back()->withInput()->withErrors([
-                'cantidad_pasajeros' => 'La cantidad de pasajeros supera la capacidad máxima del bus.'
-            ]);
-        }
-
-        $visita->update($datos);
-
-        return redirect()
-            ->route('visitas.index')
-            ->with('success', 'Visita actualizada correctamente.');
     }
+
+    // Verificar capacidad del bus
+    $capacidad = $recorrido->bus->capacidad_maxima;
+
+    if ($capacidad <= 0) {
+        return back()
+            ->withInput()
+            ->withErrors([
+                'id_recorrido' =>
+                'El bus debe tener una capacidad máxima mayor que cero.'
+            ]);
+    }
+
+    if ($datos['cantidad_pasajeros'] > $capacidad) {
+        return back()
+            ->withInput()
+            ->withErrors([
+                'cantidad_pasajeros' =>
+                'La cantidad de pasajeros supera la capacidad máxima del bus.'
+            ]);
+    }
+
+    // Calcular ocupación
+    $ocupacion = ($datos['cantidad_pasajeros'] / $capacidad) * 100;
+
+    // Validar espera mínima de 5 minutos
+    if ($ocupacion < 25 && !empty($datos['fecha_hora_salida'])) {
+
+        $llegada = Carbon::parse($datos['fecha_hora_llegada']);
+        $salida = Carbon::parse($datos['fecha_hora_salida']);
+
+        $salidaMinima = $llegada->copy()->addMinutes(5);
+
+        if ($salida->lt($salidaMinima)) {
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'fecha_hora_salida' =>
+                    'El bus tiene una ocupación inferior al 25%. '
+                    . 'Debe esperar al menos 5 minutos en la estación. '
+                    . 'La hora mínima de salida es '
+                    . $salidaMinima->format('d/m/Y H:i') . '.'
+                ]);
+        }
+    }
+
+    // Actualizar visita
+    $visita->update($datos);
+
+    return redirect()
+        ->route('visitas.index')
+        ->with('success', 'Visita actualizada correctamente.');
+}
 
     // Eliminar una visita
     public function destroy($id)

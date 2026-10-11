@@ -2,35 +2,38 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Models\Municipio;
-use App\Models\Linea;
-use App\Models\Acceso;
-use App\Models\VisitaEstacion;
-use App\Models\Alerta;
+use Illuminate\Database\Eloquent\Model;
 
 class Estacion extends Model
 {
-      use HasFactory;
+    use HasFactory;
 
+    // Nombre de la tabla
     protected $table = 'estaciones';
 
+    // Clave primaria
     protected $primaryKey = 'id_estacion';
 
+    // Campos permitidos
     protected $fillable = [
         'nombre',
         'direccion',
         'id_municipio',
-        'estado'
+        'estado',
+        'capacidad_maxima',
+        'pasajeros_actuales'
     ];
 
+    // Tipos de datos
     protected $casts = [
         'estado' => 'boolean',
+        'capacidad_maxima' => 'integer',
+        'pasajeros_actuales' => 'integer'
     ];
 
-
-   public function municipio()
+    // Relación con municipio
+    public function municipio()
     {
         return $this->belongsTo(
             Municipio::class,
@@ -39,6 +42,7 @@ class Estacion extends Model
         );
     }
 
+    // Relación con líneas
     public function lineas()
     {
         return $this->belongsToMany(
@@ -46,18 +50,14 @@ class Estacion extends Model
             'linea_estacion',
             'id_estacion',
             'id_linea'
-        )->withPivot('orden', 'distancia_anterior');
-    }
-
-    public function accesos()
-    {
-        return $this->hasMany(
-            Acceso::class,
-            'id_estacion',
-            'id_estacion'
+        )->withPivot(
+            'orden',
+            'distancia_anterior'
         );
     }
-     public function visitas()
+
+    // Relación con visitas
+    public function visitas()
     {
         return $this->hasMany(
             VisitaEstacion::class,
@@ -66,12 +66,34 @@ class Estacion extends Model
         );
     }
 
-     public function alertas()
+    // Relación con alertas
+    public function alertas()
     {
         return $this->hasMany(
             Alerta::class,
             'id_estacion',
             'id_estacion'
         );
+    }
+
+    // Calcular porcentaje de ocupación
+    public function porcentajeOcupacion()
+    {
+        if ($this->capacidad_maxima <= 0) {
+            return 0;
+        }
+
+        return ($this->pasajeros_actuales / $this->capacidad_maxima) * 100;
+    }
+
+    // Verificar si se alcanza el límite de alerta
+    public function requiereAlerta()
+    {
+        if ($this->capacidad_maxima <= 0) {
+            return false;
+        }
+
+        return $this->pasajeros_actuales >=
+            ($this->capacidad_maxima * 1.5);
     }
 }

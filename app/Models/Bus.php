@@ -2,47 +2,28 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Bus extends Model
 {
     use HasFactory;
 
+    // Nombre de la tabla
     protected $table = 'buses';
 
+    // Clave primaria
+    protected $primaryKey = 'id_bus';
+
+    // Campos permitidos para registro y actualización
     protected $fillable = [
-        'placa',
-        'numero_bus',
-        'capacidad',
+        'codigo',
+        'capacidad_maxima',
         'estado'
     ];
 
-    public function lineas()
-    {
-        return $this->belongsToMany(
-            Linea::class,
-            'asignaciones_bus_linea'
-        )->withPivot('fecha_inicio', 'fecha_fin', 'estado');
-    }
-
-    public function parqueo()
-    {
-        return $this->hasOne(Parqueo::class);
-    }
-
-    public function asignaciones()
-    {
-        return $this->hasMany(AsignacionBusLinea::class);
-    }
-
-    public function asignacionesPiloto()
-    {
-        return $this->hasMany(AsignacionPiloto::class);
-    }
-
-    public function recorridos()
-    {
-        return $this->hasMany(Recorrido::class);
-    }
+    // Conversión de tipos de datos
+    protected $casts = [
+        'capacidad_maxima' => 'integer'
+    ];
 }

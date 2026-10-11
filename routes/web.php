@@ -5,7 +5,7 @@ use App\Http\Controllers\MunicipioController;
 use App\Http\Controllers\LineaController;
 use App\Http\Controllers\EstacionController;
 use App\Http\Controllers\AccesoController;
-
+use App\Http\Controllers\BusController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -61,3 +61,14 @@ route::get('/accesos/{acceso}/edit', [AccesoController::class, 'edit'])->name('a
 route::put('/accesos/{acceso}', [AccesoController::class, 'update'])->name('accesos.update');
 route::delete('/accesos/{acceso}', [AccesoController::class, 'destroy'])->name('accesos.destroy');
 route::get('/accesos/{acceso}', [AccesoController::class, 'show'])->name('accesos.show');
+
+
+//Rutas de Buses
+route::get('/buses', [BusController::class, 'index'])->name('buses.index');
+route::get('/buses/create', [BusController::class, 'create'])->name('buses.create');
+route::post('/buses', [BusController::class, 'store'])->name('buses.store');
+route::get('/buses/{bus}', [BusController::class, 'show'])->name('buses.show');
+route::get('/buses/{bus}/edit', [BusController::class, 'edit'])->name('buses.edit');
+route::put('/buses/{bus}', [BusController::class, 'update'])->name('buses.update');
+route::delete('/buses/{bus}', [BusController::class, 'destroy'])->name('buses.destroy');
+

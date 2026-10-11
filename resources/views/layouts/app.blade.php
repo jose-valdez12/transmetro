@@ -92,8 +92,8 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            Reportes
+                        <a class="nav-link" href="{{ url('/visitas') }}">
+                            Visitas a Estaciones
                         </a>
                     </li>
 

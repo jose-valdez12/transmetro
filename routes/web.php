@@ -8,7 +8,7 @@ use App\Http\Controllers\AccesoController;
 use App\Http\Controllers\BusController;
 use App\Http\Controllers\AsignacionBusLineaController;
 use App\Http\Controllers\RecorridoController;
-
+use App\Http\Controllers\VisitaEstacionController;
 
 
 
@@ -99,3 +99,13 @@ route::get('/recorridos/{recorrido}', [RecorridoController::class, 'show'])->nam
 route::get('/recorridos/{recorrido}/edit', [RecorridoController::class, 'edit'])->name('recorridos.edit');
 route::put('/recorridos/{recorrido}', [RecorridoController::class, 'update'])->name('recorridos.update');
 route::delete('/recorridos/{recorrido}', [RecorridoController::class, 'destroy'])->name('recorridos.destroy');
+
+
+//Rutas de Visita a Estaciones
+route::get('/visitas', [VisitaEstacionController::class, 'index'])->name('visitas.index');
+route::get('/visitas/create', [VisitaEstacionController::class, 'create'])->name('visitas.create');
+route::post('/visitas', [VisitaEstacionController::class, 'store'])->name('visitas.store');
+route::get('/visitas/{visita}', [VisitaEstacionController::class, 'show'])->name('visitas.show');
+route::get('/visitas/{visita}/edit', [VisitaEstacionController::class, 'edit'])->name('visitas.edit');
+route::put('/visitas/{visita}', [VisitaEstacionController::class, 'update'])->name('visitas.update');
+route::delete('/visitas/{visita}', [VisitaEstacionController::class, 'destroy'])->name('visitas.destroy');

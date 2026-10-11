@@ -6,6 +6,13 @@ use App\Http\Controllers\LineaController;
 use App\Http\Controllers\EstacionController;
 use App\Http\Controllers\AccesoController;
 use App\Http\Controllers\BusController;
+use App\Http\Controllers\AsignacionBusLineaController;
+
+
+
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -72,3 +79,12 @@ route::get('/buses/{bus}/edit', [BusController::class, 'edit'])->name('buses.edi
 route::put('/buses/{bus}', [BusController::class, 'update'])->name('buses.update');
 route::delete('/buses/{bus}', [BusController::class, 'destroy'])->name('buses.destroy');
 
+
+//Rutas de Asignaciones de Buses a Lineas
+route::get('/asignacion-bus', [AsignacionBusLineaController::class, 'index'])->name('asignacion-bus.index');
+route::get('/asignacion-bus/create', [AsignacionBusLineaController::class, 'create'])->name('asignacion-bus.create');
+route::post('/asignacion-bus', [AsignacionBusLineaController::class, 'store'])->name('asignacion-bus.store');
+route::get('/asignacion-bus/{asignacion}', [AsignacionBusLineaController::class, 'show'])->name('asignacion-bus.show');
+route::get('/asignacion-bus/{asignacion}/edit', [AsignacionBusLineaController::class, 'edit'])->name('asignacion-bus.edit');
+route::put('/asignacion-bus/{asignacion}', [AsignacionBusLineaController::class, 'update'])->name('asignacion-bus.update');
+route::delete('/asignacion-bus/{asignacion}', [AsignacionBusLineaController::class, 'destroy'])->name('asignacion-bus.destroy');

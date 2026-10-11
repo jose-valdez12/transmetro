@@ -80,8 +80,8 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            Recorridos
+                        <a class="nav-link" href="{{url('/asignacion-bus')}}">
+                            Asignacion de buses
                         </a>
                     </li>
 

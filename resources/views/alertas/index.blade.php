@@ -153,6 +153,13 @@
                                             Editar
                                         </a>
 
+                                        {{-- Asignar Bus --}}
+                                        <a href="{{ route('alertas.asignar-bus', $alerta->id_alerta) }}"
+                                           class="btn btn-primary btn-sm">
+                                            <i class="bi bi-bus-front"></i>
+                                            Asignar Bus
+                                        </a>
+
                                         {{-- Eliminar --}}
                                         <form action="{{ route('alertas.destroy', $alerta->id_alerta) }}"
                                               method="POST"

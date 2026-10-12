@@ -105,3 +105,5 @@ route::get('/alertas/{alerta}', [AlertaController::class, 'show'])->name('alerta
 route::get('/alertas/{alerta}/edit', [AlertaController::class, 'edit'])->name('alertas.edit');
 route::put('/alertas/{alerta}', [AlertaController::class, 'update'])->name('alertas.update');
 route::delete('/alertas/{alerta}', [AlertaController::class, 'destroy'])->name('alertas.destroy');
+route::get('/alertas/{id}/asignar-bus', [AlertaController::class, 'asignarBus'])->name('alertas.asignar-bus');
+route::post('/alertas/{id}/asignar-bus',[AlertaController::class, 'guardarAsignacionBus']) ->name('alertas.guardar-asignacion');

@@ -140,6 +140,13 @@
     Gestión de Parqueos
 </a>
 </li>
+
+<li class="navitem">
+    <a href="{{ route('usuarios.index') }}" class="nav-link">
+    <i class="bi bi-people me-2"></i>
+    Gestión de Usuarios
+</a>
+</li>
                 </ul>
             </div>
 

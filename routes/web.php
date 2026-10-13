@@ -16,6 +16,7 @@ use App\Http\Controllers\AsignacionPilotoController;
 use App\Http\Controllers\GuardiaController;
 use App\Http\Controllers\AsignacionGuardiaController;
 use App\Http\Controllers\ParqueoController;
+use App\Http\Controllers\UsuarioController;
 
 //Rutas de todas las vistas de la aplicacion.
 
@@ -185,3 +186,15 @@ route::delete('/asignacion-guardia/{id}',[AsignacionGuardiaController::class, 'd
  route::get('/parqueos/{id}/edit', [ParqueoController::class, 'edit'])  ->name('parqueos.edit');
  route::put('/parqueos/{id}', [ParqueoController::class, 'update'])  ->name('parqueos.update');
  route::delete('/parqueos/{id}',  [ParqueoController::class, 'destroy']) ->name('parqueos.destroy');
+
+
+
+ //usuarios
+
+Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
+Route::get('/usuarios/create', [UsuarioController::class, 'create']) ->name('usuarios.create');
+Route::post('/usuarios', [UsuarioController::class, 'store']) ->name('usuarios.store');
+Route::get('/usuarios/{id}', [UsuarioController::class, 'show'])  ->name('usuarios.show');
+Route::get('/usuarios/{id}/edit', [UsuarioController::class, 'edit']) ->name('usuarios.edit');
+Route::put('/usuarios/{id}', [UsuarioController::class, 'update'])->name('usuarios.update');
+Route::delete('/usuarios/{id}', [UsuarioController::class, 'destroy'])->name('usuarios.destroy');

@@ -1,15 +1,16 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Usuario extends Model
+class Usuario extends Authenticatable
 {
- use HasFactory;
+    use HasFactory;
 
     protected $table = 'usuarios';
+
+    protected $primaryKey = 'id_usuario';
 
     protected $fillable = [
         'nombre',
@@ -24,11 +25,18 @@ class Usuario extends Model
         'remember_token'
     ];
 
+    protected $casts = [
+        'estado' => 'boolean',
+
+    ];
+
+    // Campo utilizado para autenticación
     public function getAuthPasswordName()
     {
         return 'password';
     }
 
+    // Correo utilizado para recuperación de contraseña
     public function getEmailForPasswordReset()
     {
         return $this->correo;

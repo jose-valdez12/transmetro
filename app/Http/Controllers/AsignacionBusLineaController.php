@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\AsignacionBusLinea;
 use App\Models\Bus;
 use App\Models\Linea;
+use App\Models\Recorrido;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -218,11 +220,12 @@ class AsignacionBusLineaController extends Controller
             ->with('success', 'Asignación eliminada correctamente.');
     }
 
-     // Finalizar una asignación de bus
+      // Finalizar asignación de bus
     public function finalizar($id)
     {
         DB::transaction(function () use ($id) {
 
+            // Obtener la asignación
             $asignacion = AsignacionBusLinea::findOrFail($id);
 
             // Bloquear el bus durante la operación
@@ -230,10 +233,9 @@ class AsignacionBusLineaController extends Controller
                 ->lockForUpdate()
                 ->firstOrFail();
 
-            // Bloquear y volver a consultar la asignación
+            // Bloquear y consultar nuevamente la asignación
             $asignacion = AsignacionBusLinea::where(
-                'id_asignacion',
-                $id
+                'id_asignacion', $id
             )
                 ->lockForUpdate()
                 ->firstOrFail();
@@ -241,26 +243,38 @@ class AsignacionBusLineaController extends Controller
             // Verificar que la asignación esté activa
             if (!$asignacion->estado) {
                 throw ValidationException::withMessages([
-                    'asignacion' =>
-                        'Esta asignación ya fue finalizada.'
+                    'asignacion' => 'Esta asignación ya fue finalizada.'
                 ]);
             }
 
-            // Registrar la finalización
+            // Verificar si el bus tiene un recorrido en curso
+            $recorridoEnCurso = Recorrido::where(
+                'id_bus', $bus->id_bus
+            )
+                ->where('estado', 'En curso')
+                ->exists();
+
+            if ($recorridoEnCurso) {
+                throw ValidationException::withMessages([
+                    'asignacion' =>
+                        'No se puede finalizar la asignación porque el bus tiene un recorrido en curso. Primero debes finalizar el recorrido.'
+                ]);
+            }
+
+            // Finalizar la asignación
             $asignacion->update([
                 'fecha_fin' => now()->toDateString(),
                 'estado' => 0
             ]);
 
-            // Comprobar si el bus tiene otra asignación activa
+            // Verificar si tiene otra asignación activa
             $tieneOtraAsignacion = AsignacionBusLinea::where(
-                'id_bus',
-                $bus->id_bus
+                'id_bus', $bus->id_bus
             )
                 ->where('estado', 1)
                 ->exists();
 
-            // Liberar el bus si ya no tiene asignaciones activas
+            // Liberar el bus si no tiene asignaciones activas
             if (
                 !$tieneOtraAsignacion &&
                 $bus->estado === 'Asignado'
@@ -275,7 +289,8 @@ class AsignacionBusLineaController extends Controller
             ->route('asignacion-bus.index')
             ->with(
                 'success',
-                'Asignación finalizada correctamente. El bus ha quedado disponible si no tiene otras asignaciones activas.'
+                'Asignación finalizada correctamente.'
             );
     }
+
 }

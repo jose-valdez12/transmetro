@@ -23,7 +23,7 @@
     </div>
 
     {{-- Mensaje de éxito --}}
-    @if (session('success'))
+    @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show">
             <i class="bi bi-check-circle me-2"></i>
             {{ session('success') }}
@@ -33,6 +33,15 @@
                     data-bs-dismiss="alert"
                     aria-label="Cerrar">
             </button>
+        </div>
+    @endif
+
+    {{-- Mensajes de error --}}
+    @if($errors->any())
+        <div class="alert alert-danger">
+            @foreach($errors->all() as $error)
+                <div>{{ $error }}</div>
+            @endforeach
         </div>
     @endif
 
@@ -48,7 +57,7 @@
 
             <div class="table-responsive">
 
-                <table class="table table-bordered table-striped">
+                <table class="table table-bordered table-striped align-middle">
 
                     <thead class="table-dark">
                         <tr>
@@ -64,7 +73,8 @@
 
                     <tbody>
 
-                        @forelse ($asignaciones as $asignacion)
+                        @forelse($asignaciones as $asignacion)
+
                             <tr>
                                 <td>{{ $asignacion->id_asignacion }}</td>
 
@@ -76,16 +86,16 @@
                                     {{ $asignacion->linea->nombre ?? 'Sin línea' }}
                                 </td>
 
-                              <td>
-                                    {{ $asignacion->fecha_inicio? $asignacion->fecha_inicio->format('d/m/Y')  : '-' }}
-                             </td>
+                                <td>
+                                    {{ $asignacion->fecha_inicio ? $asignacion->fecha_inicio->format('d/m/Y') : '-' }}
+                                </td>
 
-                              <td>
+                                <td>
                                     {{ $asignacion->fecha_fin ? $asignacion->fecha_fin->format('d/m/Y') : 'Sin fecha' }}
                                 </td>
 
                                 <td>
-                                    @if ($asignacion->estado)
+                                    @if($asignacion->estado == 1)
                                         <span class="badge bg-success">
                                             Activa
                                         </span>
@@ -113,9 +123,31 @@
                                             Editar
                                         </a>
 
+                                        {{-- Finalizar --}}
+                                        @if($asignacion->estado == 1)
+
+                                            <form action="{{ route('asignacion-bus.finalizar', $asignacion->id_asignacion) }}"
+                                                  method="POST"
+                                                  class="d-inline"
+                                                  onsubmit="return confirm('¿Estás seguro de finalizar esta asignación?');">
+
+                                                @csrf
+                                                @method('PATCH')
+
+                                                <button type="submit"
+                                                        class="btn btn-success btn-sm">
+                                                    <i class="bi bi-check-circle"></i>
+                                                    Finalizar
+                                                </button>
+
+                                            </form>
+
+                                        @endif
+
                                         {{-- Eliminar --}}
                                         <form action="{{ route('asignacion-bus.destroy', $asignacion->id_asignacion) }}"
                                               method="POST"
+                                              class="d-inline"
                                               onsubmit="return confirm('¿Está seguro de eliminar esta asignación?');">
 
                                             @csrf
@@ -134,14 +166,17 @@
                             </tr>
 
                         @empty
+
                             <tr>
                                 <td colspan="7" class="text-center py-4">
                                     No hay asignaciones registradas.
                                 </td>
                             </tr>
+
                         @endforelse
 
                     </tbody>
+
                 </table>
 
             </div>

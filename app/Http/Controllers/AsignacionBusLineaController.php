@@ -217,4 +217,65 @@ class AsignacionBusLineaController extends Controller
             ->route('asignacion-bus.index')
             ->with('success', 'Asignación eliminada correctamente.');
     }
+
+     // Finalizar una asignación de bus
+    public function finalizar($id)
+    {
+        DB::transaction(function () use ($id) {
+
+            $asignacion = AsignacionBusLinea::findOrFail($id);
+
+            // Bloquear el bus durante la operación
+            $bus = Bus::where('id_bus', $asignacion->id_bus)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            // Bloquear y volver a consultar la asignación
+            $asignacion = AsignacionBusLinea::where(
+                'id_asignacion',
+                $id
+            )
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            // Verificar que la asignación esté activa
+            if (!$asignacion->estado) {
+                throw ValidationException::withMessages([
+                    'asignacion' =>
+                        'Esta asignación ya fue finalizada.'
+                ]);
+            }
+
+            // Registrar la finalización
+            $asignacion->update([
+                'fecha_fin' => now()->toDateString(),
+                'estado' => 0
+            ]);
+
+            // Comprobar si el bus tiene otra asignación activa
+            $tieneOtraAsignacion = AsignacionBusLinea::where(
+                'id_bus',
+                $bus->id_bus
+            )
+                ->where('estado', 1)
+                ->exists();
+
+            // Liberar el bus si ya no tiene asignaciones activas
+            if (
+                !$tieneOtraAsignacion &&
+                $bus->estado === 'Asignado'
+            ) {
+                $bus->update([
+                    'estado' => 'Disponible'
+                ]);
+            }
+        });
+
+        return redirect()
+            ->route('asignacion-bus.index')
+            ->with(
+                'success',
+                'Asignación finalizada correctamente. El bus ha quedado disponible si no tiene otras asignaciones activas.'
+            );
+    }
 }

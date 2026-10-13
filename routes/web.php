@@ -75,6 +75,11 @@ route::get('/asignacion-bus/{asignacion}', [AsignacionBusLineaController::class,
 route::get('/asignacion-bus/{asignacion}/edit', [AsignacionBusLineaController::class, 'edit'])->name('asignacion-bus.edit');
 route::put('/asignacion-bus/{asignacion}', [AsignacionBusLineaController::class, 'update'])->name('asignacion-bus.update');
 route::delete('/asignacion-bus/{asignacion}', [AsignacionBusLineaController::class, 'destroy'])->name('asignacion-bus.destroy');
+Route::patch(
+    '/asignacion-bus/{id}/finalizar',
+    [AsignacionBusLineaController::class, 'finalizar']
+)->name('asignacion-bus.finalizar');
+Route::resource('asignacion-bus', AsignacionBusLineaController::class);
 
 
 //Rutas de Recorridos
@@ -107,3 +112,5 @@ route::put('/alertas/{alerta}', [AlertaController::class, 'update'])->name('aler
 route::delete('/alertas/{alerta}', [AlertaController::class, 'destroy'])->name('alertas.destroy');
 route::get('/alertas/{id}/asignar-bus', [AlertaController::class, 'asignarBus'])->name('alertas.asignar-bus');
 route::post('/alertas/{id}/asignar-bus',[AlertaController::class, 'guardarAsignacionBus']) ->name('alertas.guardar-asignacion');
+
+

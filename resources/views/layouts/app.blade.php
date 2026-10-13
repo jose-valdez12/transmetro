@@ -103,6 +103,11 @@
                         </a>
                     </li>
 
+                    <li class="navitem">
+                    <a class="nav-link" href="{{url('/pilotos')}}">
+                        Pilotos
+                    </a>
+                    </li>
                 </ul>
             </div>
 

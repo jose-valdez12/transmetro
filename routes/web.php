@@ -10,6 +10,7 @@ use App\Http\Controllers\AsignacionBusLineaController;
 use App\Http\Controllers\RecorridoController;
 use App\Http\Controllers\VisitaEstacionController;
 use App\Http\Controllers\AlertaController;
+use App\Http\Controllers\PilotoController;
 
 //Rutas de todas las vistas de la aplicacion.
 
@@ -122,3 +123,13 @@ route::get('/alertas/{id}/asignar-bus', [AlertaController::class, 'asignarBus'])
 route::post('/alertas/{id}/asignar-bus',[AlertaController::class, 'guardarAsignacionBus']) ->name('alertas.guardar-asignacion');
 
 
+
+//Rutas de Piloto
+Route::resource('pilotos', PilotoController::class);
+Route::get('/pilotos', [PilotoController::class, 'index']) ->name('pilotos.index');
+Route::get('/pilotos/create', [PilotoController::class, 'create']) ->name('pilotos.create');
+Route::post('/pilotos', [PilotoController::class, 'store'])->name('pilotos.store');
+Route::get('/pilotos/{id}', [PilotoController::class, 'show']) ->name('pilotos.show');
+Route::get('/pilotos/{id}/edit', [PilotoController::class, 'edit'])->name('pilotos.edit');
+Route::put('/pilotos/{id}', [PilotoController::class, 'update'])->name('pilotos.update');
+Route::delete('/pilotos/{id}', [PilotoController::class, 'destroy'])->name('pilotos.destroy');

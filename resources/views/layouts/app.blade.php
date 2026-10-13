@@ -48,6 +48,39 @@
                             <i class="bi bi-house-door me-1"></i> Inicio
                         </a>
                     </li>
+                    <li clas="nav-item">
+                        <!-- BOTONES DE AUTENTICACIÓN -->
+<div class="d-flex align-items-center gap-2">
+
+    @guest
+        <a href="{{ route('login') }}"
+           class="btn btn-primary">
+            <i class="bi bi-box-arrow-in-right me-1"></i>
+            Iniciar sesión
+        </a>
+    @endguest
+
+    @auth
+        <span class="text-muted me-2">
+            <i class="bi bi-person-circle me-1"></i>
+            {{ auth()->user()->nombre }}
+        </span>
+
+        <form action="{{ route('logout') }}" method="POST">
+            @csrf
+
+            <button type="submit"
+                    class="btn btn-outline-danger">
+                <i class="bi bi-box-arrow-right me-1"></i>
+                Cerrar sesión
+            </button>
+        </form>
+    @endauth
+
+</div>
+
+</li>
+
 
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('/municipios') }}">

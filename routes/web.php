@@ -14,6 +14,7 @@ use App\Http\Controllers\PilotoController;
 use App\Http\Controllers\FormacionPilotoController;
 use App\Http\Controllers\AsignacionPilotoController;
 use App\Http\Controllers\GuardiaController;
+use App\Http\Controllers\AsignacionGuardiaController;
 
 //Rutas de todas las vistas de la aplicacion.
 
@@ -154,37 +155,56 @@ route::delete('/asignaciones-pilotos/{id}', [AsignacionPilotoController::class, 
 
 
 //Rutas de Guardia
-// Listado de guardias
-Route::get('/guardias',
-    [GuardiaController::class, 'index'])
-    ->name('guardias.index');
+Route::get('/guardias',[GuardiaController::class, 'index']) ->name('guardias.index');
+Route::get('/guardias/create', [GuardiaController::class, 'create']) ->name('guardias.create');
+Route::post('/guardias', [GuardiaController::class, 'store']) ->name('guardias.store');
+Route::get('/guardias/{id}',[GuardiaController::class, 'show'])  ->name('guardias.show');
+Route::get('/guardias/{id}/edit',[GuardiaController::class, 'edit'])->name('guardias.edit');
+Route::put('/guardias/{id}', [GuardiaController::class, 'update'])->name('guardias.update');
+Route::delete('/guardias/{id}',[GuardiaController::class, 'destroy'])->name('guardias.destroy');
 
-// Formulario de registro
-Route::get('/guardias/create',
-    [GuardiaController::class, 'create'])
-    ->name('guardias.create');
 
-// Guardar guardia
-Route::post('/guardias',
-    [GuardiaController::class, 'store'])
-    ->name('guardias.store');
 
-// Mostrar detalles
-Route::get('/guardias/{id}',
-    [GuardiaController::class, 'show'])
-    ->name('guardias.show');
+// ==========================================
+// MÓDULO: ASIGNACIÓN DE GUARDIAS
+// ==========================================
 
-// Formulario de edición
-Route::get('/guardias/{id}/edit',
-    [GuardiaController::class, 'edit'])
-    ->name('guardias.edit');
+// Mostrar todas las asignaciones
+Route::get('/asignacion-guardia',
+    [AsignacionGuardiaController::class, 'index'])
+    ->name('asignacion-guardia.index');
 
-// Actualizar guardia
-Route::put('/guardias/{id}',
-    [GuardiaController::class, 'update'])
-    ->name('guardias.update');
+// Mostrar formulario de registro
+Route::get('/asignacion-guardia/create',
+    [AsignacionGuardiaController::class, 'create'])
+    ->name('asignacion-guardia.create');
 
-// Eliminar guardia
-Route::delete('/guardias/{id}',
-    [GuardiaController::class, 'destroy'])
-    ->name('guardias.destroy');
+// Guardar nueva asignación
+Route::post('/asignacion-guardia',
+    [AsignacionGuardiaController::class, 'store'])
+    ->name('asignacion-guardia.store');
+
+// Mostrar detalles de una asignación
+Route::get('/asignacion-guardia/{id}',
+    [AsignacionGuardiaController::class, 'show'])
+    ->name('asignacion-guardia.show');
+
+// Mostrar formulario de edición
+Route::get('/asignacion-guardia/{id}/edit',
+    [AsignacionGuardiaController::class, 'edit'])
+    ->name('asignacion-guardia.edit');
+
+// Actualizar una asignación
+Route::put('/asignacion-guardia/{id}',
+    [AsignacionGuardiaController::class, 'update'])
+    ->name('asignacion-guardia.update');
+
+// Finalizar una asignación
+Route::patch('/asignacion-guardia/{id}/finalizar',
+    [AsignacionGuardiaController::class, 'finalizar'])
+    ->name('asignacion-guardia.finalizar');
+
+// Eliminar una asignación finalizada
+Route::delete('/asignacion-guardia/{id}',
+    [AsignacionGuardiaController::class, 'destroy'])
+    ->name('asignacion-guardia.destroy');

@@ -127,6 +127,13 @@
                         </a>
                     </li>
 
+                    <li class="navitem">
+<a class="nav-link" href="{{ route('asignacion-guardia.index') }}">
+    <i class="bi bi-shield-check"></i>
+    Asignación de Guardias
+</a>
+</li>
+
                 </ul>
             </div>
 

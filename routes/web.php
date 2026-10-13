@@ -12,6 +12,7 @@ use App\Http\Controllers\VisitaEstacionController;
 use App\Http\Controllers\AlertaController;
 use App\Http\Controllers\PilotoController;
 use App\Http\Controllers\FormacionPilotoController;
+use App\Http\Controllers\AsignacionPilotoController;
 
 //Rutas de todas las vistas de la aplicacion.
 
@@ -138,3 +139,14 @@ route::get('/formacion-pilotos/{id}/edit',  [FormacionPilotoController::class, '
 route::put('/formacion-pilotos/{id}',  [FormacionPilotoController::class, 'update']) ->name('formacion-pilotos.update');
 route::delete('/formacion-pilotos/{id}', [FormacionPilotoController::class, 'destroy'])  ->name('formacion-pilotos.destroy');
 
+
+
+// GESTIÓN DE ASIGNACIÓN DE PILOTOS
+route::get('/asignaciones-pilotos',[AsignacionPilotoController::class, 'index']) ->name('asignaciones-pilotos.index');
+route::get('/asignaciones-pilotos/create', [AsignacionPilotoController::class, 'create']) ->name('asignaciones-pilotos.create');
+route::post('/asignaciones-pilotos', [AsignacionPilotoController::class, 'store']) ->name('asignaciones-pilotos.store');
+route::get('/asignaciones-pilotos/{id}',  [AsignacionPilotoController::class, 'show']) ->name('asignaciones-pilotos.show');
+route::get('/asignaciones-pilotos/{id}/edit', [AsignacionPilotoController::class, 'edit']) ->name('asignaciones-pilotos.edit');
+route::put('/asignaciones-pilotos/{id}', [AsignacionPilotoController::class, 'update'])  ->name('asignaciones-pilotos.update');
+route::patch('/asignaciones-pilotos/{id}/finalizar', [AsignacionPilotoController::class, 'finalizar']) ->name('asignaciones-pilotos.finalizar');
+route::delete('/asignaciones-pilotos/{id}', [AsignacionPilotoController::class, 'destroy']) ->name('asignaciones-pilotos.destroy');

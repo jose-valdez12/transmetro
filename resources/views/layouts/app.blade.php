@@ -115,6 +115,12 @@
                     </a>
                     </li>
 
+                       <li class="navitem">
+                    <a  class ="nav-link" href="{{ route('asignaciones-pilotos.index') }}">
+                      Asignación de Pilotos
+                     </a>
+                    </li>
+
                 </ul>
             </div>
 

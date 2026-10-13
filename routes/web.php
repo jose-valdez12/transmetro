@@ -90,6 +90,14 @@ route::get('/recorridos/{recorrido}', [RecorridoController::class, 'show'])->nam
 route::get('/recorridos/{recorrido}/edit', [RecorridoController::class, 'edit'])->name('recorridos.edit');
 route::put('/recorridos/{recorrido}', [RecorridoController::class, 'update'])->name('recorridos.update');
 route::delete('/recorridos/{recorrido}', [RecorridoController::class, 'destroy'])->name('recorridos.destroy');
+Route::patch(
+    '/recorridos/{id}/iniciar',
+    [RecorridoController::class, 'iniciar']
+)->name('recorridos.iniciar');
+Route::patch(
+    '/recorridos/{id}/finalizar',
+    [RecorridoController::class, 'finalizar']
+)->name('recorridos.finalizar');
 
 
 //Rutas de Visita a Estaciones

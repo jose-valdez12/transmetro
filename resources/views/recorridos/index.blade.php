@@ -51,6 +51,23 @@
         </div>
     @endif
 
+    {{-- Errores de validación --}}
+    @if ($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+
+            @foreach ($errors->all() as $error)
+                <div>{{ $error }}</div>
+            @endforeach
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Cerrar">
+            </button>
+        </div>
+    @endif
+
     {{-- Tabla de recorridos --}}
     <div class="card shadow-sm">
 
@@ -173,9 +190,52 @@
                                             Editar
                                         </a>
 
+                                        {{-- Iniciar recorrido --}}
+                                        @if ($recorrido->estado == 'Programado')
+
+                                            <form action="{{ route('recorridos.iniciar', $recorrido->id_recorrido) }}"
+                                                  method="POST"
+                                                  class="d-inline"
+                                                  onsubmit="return confirm('¿Deseas iniciar este recorrido?');">
+
+                                                @csrf
+                                                @method('PATCH')
+
+                                                <button type="submit"
+                                                        class="btn btn-success btn-sm">
+                                                    <i class="bi bi-play-circle"></i>
+                                                    Iniciar
+                                                </button>
+
+                                            </form>
+
+                                        @endif
+
+                                        {{-- Finalizar recorrido --}}
+                                        @if ($recorrido->estado == 'En curso')
+
+                                            <form action="{{ route('recorridos.finalizar', $recorrido->id_recorrido) }}"
+                                                  method="POST"
+                                                  class="d-inline"
+                                                  onsubmit="return confirm('¿Deseas finalizar este recorrido?');">
+
+                                                @csrf
+                                                @method('PATCH')
+
+                                                <button type="submit"
+                                                        class="btn btn-secondary btn-sm">
+                                                    <i class="bi bi-stop-circle"></i>
+                                                    Finalizar
+                                                </button>
+
+                                            </form>
+
+                                        @endif
+
                                         {{-- Eliminar --}}
                                         <form action="{{ route('recorridos.destroy', $recorrido->id_recorrido) }}"
                                               method="POST"
+                                              class="d-inline"
                                               onsubmit="return confirm('¿Está seguro de eliminar este recorrido?');">
 
                                             @csrf

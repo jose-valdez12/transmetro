@@ -8,6 +8,8 @@ use App\Models\Linea;
 use App\Models\AsignacionBusLinea;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class RecorridoController extends Controller
 {
@@ -215,5 +217,94 @@ class RecorridoController extends Controller
         return redirect()
             ->route('recorridos.index')
             ->with('success', 'Recorrido eliminado correctamente.');
+    }
+
+     // Iniciar un recorrido programado
+    public function iniciar($id)
+    {
+        DB::transaction(function () use ($id) {
+
+            $recorrido = Recorrido::findOrFail($id);
+
+            // Bloquear el bus para evitar operaciones simultáneas
+            $bus = Bus::where('id_bus', $recorrido->id_bus)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            $recorrido = Recorrido::where('id_recorrido', $id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            if ($recorrido->estado !== 'Programado') {
+                throw ValidationException::withMessages([
+                    'recorrido' => 'Solo se pueden iniciar recorridos programados.'
+                ]);
+            }
+
+            // Comprobar que el bus esté asignado a la línea
+            $asignacion = AsignacionBusLinea::where('id_bus', $bus->id_bus)
+                ->where('id_linea', $recorrido->id_linea)
+                ->where('estado', 1)
+                ->whereDate('fecha_inicio', '<=', now()->toDateString())
+                ->where(function ($consulta) {
+                    $consulta->whereNull('fecha_fin')
+                        ->orWhereDate('fecha_fin', '>=', now()->toDateString());
+                })
+                ->exists();
+
+            if (!$asignacion || $bus->estado !== 'Asignado') {
+                throw ValidationException::withMessages([
+                    'recorrido' => 'El bus no tiene una asignación activa a esta línea.'
+                ]);
+            }
+
+            // Evitar dos recorridos simultáneos
+            $otroRecorrido = Recorrido::where('id_bus', $bus->id_bus)
+                ->where('estado', 'En curso')
+                ->exists();
+
+            if ($otroRecorrido) {
+                throw ValidationException::withMessages([
+                    'recorrido' => 'Este bus ya tiene un recorrido en curso.'
+                ]);
+            }
+
+            $recorrido->update([
+                'estado' => 'En curso',
+                'fecha' => now()->toDateString(),
+                'hora_inicio' => now()->format('H:i:s'),
+                'hora_fin' => null
+            ]);
+        });
+
+        return redirect()
+            ->route('recorridos.index')
+            ->with('success', 'Recorrido iniciado correctamente.');
+    }
+
+    // Finalizar un recorrido en curso
+    public function finalizar($id)
+    {
+        DB::transaction(function () use ($id) {
+
+            $recorrido = Recorrido::where('id_recorrido', $id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            if ($recorrido->estado !== 'En curso') {
+                throw ValidationException::withMessages([
+                    'recorrido' => 'Solo se pueden finalizar recorridos en curso.'
+                ]);
+            }
+
+            $recorrido->update([
+                'estado' => 'Finalizado',
+                'hora_fin' => now()->format('H:i:s')
+            ]);
+        });
+
+        return redirect()
+            ->route('recorridos.index')
+            ->with('success', 'Recorrido finalizado correctamente.');
     }
 }

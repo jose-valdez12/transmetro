@@ -11,17 +11,26 @@ class Guardia extends Model
 
     protected $table = 'guardias';
 
+    protected $primaryKey = 'id_guardia';
+
     protected $fillable = [
-        'nombre',
-        'apellido',
-        'dpi',
+        'nombres',
+        'apellidos',
         'telefono',
-        'correo',
-        'direccion'
+        'estado'
     ];
 
+    protected $casts = [
+        'estado' => 'boolean'
+    ];
+
+    // Relación con las asignaciones de guardias
     public function asignaciones()
     {
-        return $this->hasMany(AsignacionGuardia::class);
+        return $this->hasMany(
+            AsignacionGuardia::class,
+            'id_guardia',
+            'id_guardia'
+        );
     }
 }

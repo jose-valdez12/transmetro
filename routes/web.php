@@ -13,6 +13,7 @@ use App\Http\Controllers\AlertaController;
 use App\Http\Controllers\PilotoController;
 use App\Http\Controllers\FormacionPilotoController;
 use App\Http\Controllers\AsignacionPilotoController;
+use App\Http\Controllers\GuardiaController;
 
 //Rutas de todas las vistas de la aplicacion.
 
@@ -150,3 +151,40 @@ route::get('/asignaciones-pilotos/{id}/edit', [AsignacionPilotoController::class
 route::put('/asignaciones-pilotos/{id}', [AsignacionPilotoController::class, 'update'])  ->name('asignaciones-pilotos.update');
 route::patch('/asignaciones-pilotos/{id}/finalizar', [AsignacionPilotoController::class, 'finalizar']) ->name('asignaciones-pilotos.finalizar');
 route::delete('/asignaciones-pilotos/{id}', [AsignacionPilotoController::class, 'destroy']) ->name('asignaciones-pilotos.destroy');
+
+
+//Rutas de Guardia
+// Listado de guardias
+Route::get('/guardias',
+    [GuardiaController::class, 'index'])
+    ->name('guardias.index');
+
+// Formulario de registro
+Route::get('/guardias/create',
+    [GuardiaController::class, 'create'])
+    ->name('guardias.create');
+
+// Guardar guardia
+Route::post('/guardias',
+    [GuardiaController::class, 'store'])
+    ->name('guardias.store');
+
+// Mostrar detalles
+Route::get('/guardias/{id}',
+    [GuardiaController::class, 'show'])
+    ->name('guardias.show');
+
+// Formulario de edición
+Route::get('/guardias/{id}/edit',
+    [GuardiaController::class, 'edit'])
+    ->name('guardias.edit');
+
+// Actualizar guardia
+Route::put('/guardias/{id}',
+    [GuardiaController::class, 'update'])
+    ->name('guardias.update');
+
+// Eliminar guardia
+Route::delete('/guardias/{id}',
+    [GuardiaController::class, 'destroy'])
+    ->name('guardias.destroy');

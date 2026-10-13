@@ -121,6 +121,12 @@
                      </a>
                     </li>
 
+                    <li class="navitem">
+                        <a class ="nav-link" href="{{ route('guardias.index')}}">
+                            Guardias
+                        </a>
+                    </li>
+
                 </ul>
             </div>
 

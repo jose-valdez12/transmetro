@@ -15,6 +15,7 @@ use App\Http\Controllers\FormacionPilotoController;
 use App\Http\Controllers\AsignacionPilotoController;
 use App\Http\Controllers\GuardiaController;
 use App\Http\Controllers\AsignacionGuardiaController;
+use App\Http\Controllers\ParqueoController;
 
 //Rutas de todas las vistas de la aplicacion.
 
@@ -155,56 +156,32 @@ route::delete('/asignaciones-pilotos/{id}', [AsignacionPilotoController::class, 
 
 
 //Rutas de Guardia
-Route::get('/guardias',[GuardiaController::class, 'index']) ->name('guardias.index');
-Route::get('/guardias/create', [GuardiaController::class, 'create']) ->name('guardias.create');
-Route::post('/guardias', [GuardiaController::class, 'store']) ->name('guardias.store');
-Route::get('/guardias/{id}',[GuardiaController::class, 'show'])  ->name('guardias.show');
-Route::get('/guardias/{id}/edit',[GuardiaController::class, 'edit'])->name('guardias.edit');
-Route::put('/guardias/{id}', [GuardiaController::class, 'update'])->name('guardias.update');
-Route::delete('/guardias/{id}',[GuardiaController::class, 'destroy'])->name('guardias.destroy');
+route::get('/guardias',[GuardiaController::class, 'index']) ->name('guardias.index');
+route::get('/guardias/create', [GuardiaController::class, 'create']) ->name('guardias.create');
+route::post('/guardias', [GuardiaController::class, 'store']) ->name('guardias.store');
+route::get('/guardias/{id}',[GuardiaController::class, 'show'])  ->name('guardias.show');
+route::get('/guardias/{id}/edit',[GuardiaController::class, 'edit'])->name('guardias.edit');
+route::put('/guardias/{id}', [GuardiaController::class, 'update'])->name('guardias.update');
+route::delete('/guardias/{id}',[GuardiaController::class, 'destroy'])->name('guardias.destroy');
 
 
 
-// ==========================================
 // MÓDULO: ASIGNACIÓN DE GUARDIAS
-// ==========================================
+route::get('/asignacion-guardia', [AsignacionGuardiaController::class, 'index']) ->name('asignacion-guardia.index');
+route::get('/asignacion-guardia/create', [AsignacionGuardiaController::class, 'create']) ->name('asignacion-guardia.create');
+route::post('/asignacion-guardia', [AsignacionGuardiaController::class, 'store']) ->name('asignacion-guardia.store');
+route::get('/asignacion-guardia/{id}', [AsignacionGuardiaController::class, 'show'])->name('asignacion-guardia.show');
+route::get('/asignacion-guardia/{id}/edit', [AsignacionGuardiaController::class, 'edit']) ->name('asignacion-guardia.edit');
+route::put('/asignacion-guardia/{id}', [AsignacionGuardiaController::class, 'update']) ->name('asignacion-guardia.update');
+route::patch('/asignacion-guardia/{id}/finalizar',[AsignacionGuardiaController::class, 'finalizar']) ->name('asignacion-guardia.finalizar');
+route::delete('/asignacion-guardia/{id}',[AsignacionGuardiaController::class, 'destroy']) ->name('asignacion-guardia.destroy');
 
-// Mostrar todas las asignaciones
-Route::get('/asignacion-guardia',
-    [AsignacionGuardiaController::class, 'index'])
-    ->name('asignacion-guardia.index');
 
-// Mostrar formulario de registro
-Route::get('/asignacion-guardia/create',
-    [AsignacionGuardiaController::class, 'create'])
-    ->name('asignacion-guardia.create');
-
-// Guardar nueva asignación
-Route::post('/asignacion-guardia',
-    [AsignacionGuardiaController::class, 'store'])
-    ->name('asignacion-guardia.store');
-
-// Mostrar detalles de una asignación
-Route::get('/asignacion-guardia/{id}',
-    [AsignacionGuardiaController::class, 'show'])
-    ->name('asignacion-guardia.show');
-
-// Mostrar formulario de edición
-Route::get('/asignacion-guardia/{id}/edit',
-    [AsignacionGuardiaController::class, 'edit'])
-    ->name('asignacion-guardia.edit');
-
-// Actualizar una asignación
-Route::put('/asignacion-guardia/{id}',
-    [AsignacionGuardiaController::class, 'update'])
-    ->name('asignacion-guardia.update');
-
-// Finalizar una asignación
-Route::patch('/asignacion-guardia/{id}/finalizar',
-    [AsignacionGuardiaController::class, 'finalizar'])
-    ->name('asignacion-guardia.finalizar');
-
-// Eliminar una asignación finalizada
-Route::delete('/asignacion-guardia/{id}',
-    [AsignacionGuardiaController::class, 'destroy'])
-    ->name('asignacion-guardia.destroy');
+ // MÓDULO: GESTIÓN DE PARQUEOS
+ route::get('/parqueos',  [ParqueoController::class, 'index']) ->name('parqueos.index');
+ route::get('/parqueos/create', [ParqueoController::class, 'create']) ->name('parqueos.create');
+ route::post('/parqueos',  [ParqueoController::class, 'store'])   ->name('parqueos.store');
+ route::get('/parqueos/{id}',  [ParqueoController::class, 'show'])  ->name('parqueos.show');
+ route::get('/parqueos/{id}/edit', [ParqueoController::class, 'edit'])  ->name('parqueos.edit');
+ route::put('/parqueos/{id}', [ParqueoController::class, 'update'])  ->name('parqueos.update');
+ route::delete('/parqueos/{id}',  [ParqueoController::class, 'destroy']) ->name('parqueos.destroy');

@@ -134,6 +134,12 @@
 </a>
 </li>
 
+<li class="navitem">
+    <a class=" nav-link" href="{{ route('parqueos.index') }}" class="nav-link">
+    <i class="bi bi-p-square me-2"></i>
+    Gestión de Parqueos
+</a>
+</li>
                 </ul>
             </div>
 

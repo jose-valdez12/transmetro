@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -11,15 +10,10 @@ class Parqueo extends Model
 
     protected $table = 'parqueos';
 
-    protected $fillable = [
-        'numero',
-        'ubicacion',
-        'estado',
-        'bus_id'
-    ];
+    protected $primaryKey = 'id_parqueo';
 
-    public function bus()
-    {
-        return $this->belongsTo(Bus::class);
-    }
+    protected $fillable = [
+        'codigo',
+        'estado'
+    ];
 }

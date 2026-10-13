@@ -108,6 +108,13 @@
                         Pilotos
                     </a>
                     </li>
+
+                      <li class="navitem">
+                    <a class="nav-link" href="{{url('/formacion-pilotos')}}">
+                        Formacion Pilotos
+                    </a>
+                    </li>
+
                 </ul>
             </div>
 

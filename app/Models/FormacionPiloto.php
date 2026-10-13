@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -11,15 +10,26 @@ class FormacionPiloto extends Model
 
     protected $table = 'formacion_pilotos';
 
+    protected $primaryKey = 'id_formacion';
+
     protected $fillable = [
-        'piloto_id',
-        'titulo',
+        'id_piloto',
         'institucion',
+        'titulo',
         'fecha'
     ];
 
+    protected $casts = [
+        'fecha' => 'date'
+    ];
+
+    // Cada formación pertenece a un piloto
     public function piloto()
     {
-        return $this->belongsTo(Piloto::class);
+        return $this->belongsTo(
+            Piloto::class,
+            'id_piloto',
+            'id_piloto'
+        );
     }
 }

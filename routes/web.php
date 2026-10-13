@@ -11,6 +11,7 @@ use App\Http\Controllers\RecorridoController;
 use App\Http\Controllers\VisitaEstacionController;
 use App\Http\Controllers\AlertaController;
 use App\Http\Controllers\PilotoController;
+use App\Http\Controllers\FormacionPilotoController;
 
 //Rutas de todas las vistas de la aplicacion.
 
@@ -76,10 +77,7 @@ route::get('/asignacion-bus/{asignacion}', [AsignacionBusLineaController::class,
 route::get('/asignacion-bus/{asignacion}/edit', [AsignacionBusLineaController::class, 'edit'])->name('asignacion-bus.edit');
 route::put('/asignacion-bus/{asignacion}', [AsignacionBusLineaController::class, 'update'])->name('asignacion-bus.update');
 route::delete('/asignacion-bus/{asignacion}', [AsignacionBusLineaController::class, 'destroy'])->name('asignacion-bus.destroy');
-Route::patch(
-    '/asignacion-bus/{id}/finalizar',
-    [AsignacionBusLineaController::class, 'finalizar']
-)->name('asignacion-bus.finalizar');
+Route::patch('/asignacion-bus/{id}/finalizar',[AsignacionBusLineaController::class, 'finalizar'])->name('asignacion-bus.finalizar');
 Route::resource('asignacion-bus', AsignacionBusLineaController::class);
 
 
@@ -91,14 +89,8 @@ route::get('/recorridos/{recorrido}', [RecorridoController::class, 'show'])->nam
 route::get('/recorridos/{recorrido}/edit', [RecorridoController::class, 'edit'])->name('recorridos.edit');
 route::put('/recorridos/{recorrido}', [RecorridoController::class, 'update'])->name('recorridos.update');
 route::delete('/recorridos/{recorrido}', [RecorridoController::class, 'destroy'])->name('recorridos.destroy');
-Route::patch(
-    '/recorridos/{id}/iniciar',
-    [RecorridoController::class, 'iniciar']
-)->name('recorridos.iniciar');
-Route::patch(
-    '/recorridos/{id}/finalizar',
-    [RecorridoController::class, 'finalizar']
-)->name('recorridos.finalizar');
+Route::patch('/recorridos/{id}/iniciar',[RecorridoController::class, 'iniciar'])->name('recorridos.iniciar');
+Route::patch( '/recorridos/{id}/finalizar', [RecorridoController::class, 'finalizar'])->name('recorridos.finalizar');
 
 
 //Rutas de Visita a Estaciones
@@ -133,3 +125,16 @@ Route::get('/pilotos/{id}', [PilotoController::class, 'show']) ->name('pilotos.s
 Route::get('/pilotos/{id}/edit', [PilotoController::class, 'edit'])->name('pilotos.edit');
 Route::put('/pilotos/{id}', [PilotoController::class, 'update'])->name('pilotos.update');
 Route::delete('/pilotos/{id}', [PilotoController::class, 'destroy'])->name('pilotos.destroy');
+
+
+
+
+ // RUTAS DE FORMACIÓN DE PILOTOS
+route::get('/formacion-pilotos', [FormacionPilotoController::class, 'index']) ->name('formacion-pilotos.index');
+route::get('/formacion-pilotos/create', [FormacionPilotoController::class, 'create']) ->name('formacion-pilotos.create');
+route::post('/formacion-pilotos', [FormacionPilotoController::class, 'store']) ->name('formacion-pilotos.store');
+route::get('/formacion-pilotos/{id}',[FormacionPilotoController::class, 'show']) ->name('formacion-pilotos.show');
+route::get('/formacion-pilotos/{id}/edit',  [FormacionPilotoController::class, 'edit'])->name('formacion-pilotos.edit');
+route::put('/formacion-pilotos/{id}',  [FormacionPilotoController::class, 'update']) ->name('formacion-pilotos.update');
+route::delete('/formacion-pilotos/{id}', [FormacionPilotoController::class, 'destroy'])  ->name('formacion-pilotos.destroy');
+

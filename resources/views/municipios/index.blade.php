@@ -10,10 +10,11 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Gestión de municipalidades</h2>
 
-        <a href="{{ route('municipios.create') }}" class="btn btn-primary">
-            <i class="bi bi-plus-circle me-1"></i>
-            Registrar municipio
-        </a>
+      @if(auth()->user()->rol === 'Administrador')
+    <a href="{{ route('municipios.create') }}" class="btn btn-primary">
+        Nueva municipalidad
+    </a>
+@endif
     </div>
 
     {{-- Mensaje de confirmación --}}
@@ -61,11 +62,14 @@
                                     @endif
                                 </td>
 
+                                @if(auth()->user()->rol === 'Administrador')
+
                                 <td>
                                     <a href="{{ route('municipios.show', $municipio) }}"
                                        class="btn btn-info btn-sm">
                                         Ver
                                     </a>
+
 
                                     <a href="{{ route('municipios.edit', $municipio) }}"
                                        class="btn btn-warning btn-sm">
@@ -85,6 +89,8 @@
                                         </button>
                                     </form>
                                 </td>
+
+@endif
                             </tr>
                         @empty
                             <tr>

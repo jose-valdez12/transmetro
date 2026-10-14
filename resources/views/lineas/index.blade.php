@@ -65,7 +65,7 @@
                                         <span class="badge bg-danger">Inactivo</span>
                                     @endif
                                 </td>
-
+                               @if(auth()->user()->rol === 'Administrador')
                                 <td>
                                     <a href="{{ route('lineas.show', $linea->id_linea) }}"
                                        class="btn btn-info btn-sm">
@@ -90,6 +90,7 @@
                                         </button>
                                     </form>
                                 </td>
+                                @endif
                             </tr>
                         @empty
                             <tr>

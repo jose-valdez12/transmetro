@@ -120,7 +120,7 @@
                                         </span>
                                     @endif
                                 </td>
-
+   @if(auth()->user()->rol === 'Administrador')
                                 <td>
                                     <div class="d-flex flex-wrap gap-2">
 
@@ -172,6 +172,7 @@
 
                                     </div>
                                 </td>
+                                @endif
                             </tr>
                         @empty
                             <tr>

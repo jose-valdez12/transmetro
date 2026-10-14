@@ -124,7 +124,7 @@
                                         {{ $visita->cantidad_pasajeros }}
                                     </span>
                                 </td>
-
+ @if(auth()->user()->rol === 'Administrador')
                                 <td>
                                     <div class="d-flex flex-wrap gap-2">
 
@@ -159,7 +159,9 @@
                                         </form>
 
                                     </div>
+
                                 </td>
+                                @endif
                             </tr>
 
                         @empty

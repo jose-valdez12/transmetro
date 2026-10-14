@@ -66,6 +66,7 @@
                                     @endif
                                 </td>
 
+                                @if(auth()->user()->rol === 'Administrador')
                                 <td>
                                     <a href="{{ route('accesos.show', $acceso->id_acceso) }}"
                                        class="btn btn-info btn-sm">
@@ -90,6 +91,7 @@
                                         </button>
                                     </form>
                                 </td>
+                                @endif
                             </tr>
                         @empty
                             <tr>

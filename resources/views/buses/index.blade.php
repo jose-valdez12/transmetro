@@ -19,6 +19,12 @@
             <i class="bi bi-plus-circle me-1"></i>
             Registrar bus
         </a>
+
+          <a href="{{url('/asignacion-bus')}}" class="btn btn-primary">
+             <i class="bi bi-plus-circle me-1"></i>
+               Asignacion de buses
+              </a>
+
     </div>
 
     {{-- Mensaje de éxito --}}

@@ -17,6 +17,11 @@
             <i class="bi bi-plus-circle"></i>
             Nueva estación
         </a>
+         <a class="btn btn-primary" href="{{ url('/visitas') }}">
+            <i class="bi bi-plus-circle"></i>
+                            Visitas a Estaciones
+</a>
+
     </div>
 
     {{-- Mensajes del sistema --}}

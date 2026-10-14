@@ -113,20 +113,8 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{url('/asignacion-bus')}}">
-                            Asignacion de buses
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
                         <a class="nav-link" href="{{ url('/recorridos') }}">
                             Recorridos
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/visitas') }}">
-                            Visitas a Estaciones
                         </a>
                     </li>
 
@@ -142,30 +130,11 @@
                     </a>
                     </li>
 
-                      <li class="navitem">
-                    <a class="nav-link" href="{{url('/formacion-pilotos')}}">
-                        Formacion Pilotos
-                    </a>
-                    </li>
-
-                       <li class="navitem">
-                    <a  class ="nav-link" href="{{ route('asignaciones-pilotos.index') }}">
-                      Asignación de Pilotos
-                     </a>
-                    </li>
-
                     <li class="navitem">
                         <a class ="nav-link" href="{{ route('guardias.index')}}">
                             Guardias
                         </a>
                     </li>
-
-                    <li class="navitem">
-<a class="nav-link" href="{{ route('asignacion-guardia.index') }}">
-    <i class="bi bi-shield-check"></i>
-    Asignación de Guardias
-</a>
-</li>
 
 <li class="navitem">
     <a class=" nav-link" href="{{ route('parqueos.index') }}" class="nav-link">

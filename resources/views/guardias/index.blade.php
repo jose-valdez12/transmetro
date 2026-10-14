@@ -19,6 +19,11 @@
             <i class="bi bi-plus-circle me-1"></i>
             Nuevo guardia
         </a>
+
+        <a class="btn btn-primary" href="{{ route('asignacion-guardia.index') }}">
+    <i class="bi bi-plus-circle me-1"></i>
+    Asignación de Guardias
+</a>
     </div>
 
     @if(session('success'))

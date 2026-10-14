@@ -18,6 +18,16 @@
             <i class="bi bi-plus-circle me-1"></i>
             Nuevo piloto
         </a>
+
+         <a class="btn btn-primary" href="{{url('/formacion-pilotos')}}">
+            <i class="bi bi-plus-circle me-1"></i>
+                        Formacion Pilotos
+                    </a>
+
+                    <a  class ="btn btn-primary" href="{{ route('asignaciones-pilotos.index') }}">
+                        <i class="bi bi-plus-circle me-1"></i>
+                      Asignación de Pilotos
+                     </a>
     </div>
 
     {{-- Mensajes --}}

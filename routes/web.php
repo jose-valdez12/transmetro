@@ -18,6 +18,8 @@ use App\Http\Controllers\AsignacionGuardiaController;
 use App\Http\Controllers\ParqueoController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ReporteController;
+
 
 // AUTENTICACIÓN: estas rutas deben estar disponibles sin sesión.
 Route::get('/login', [AuthController::class, 'mostrarLogin'])->middleware('guest')->name('login');
@@ -35,6 +37,8 @@ Route::middleware('auth')->group(function () {
     // Inicio y dashboard
     Route::get('/', function () { return view('inicio'); });
     Route::get('/dashboard', function () { return view('dashboard'); })->name('dashboard');
+    Route::get('/reportes', [ReporteController::class, 'index'])
+    ->name('reportes.index');
 
     // Municipios
     Route::get('/municipios', [MunicipioController::class, 'index'])->name('municipios.index');
@@ -44,6 +48,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/municipios/{municipios}/edit', [MunicipioController::class, 'edit'])->middleware('rol:Administrador')->name('municipios.edit');
     Route::put('/municipios/{municipios}', [MunicipioController::class, 'update'])->middleware('rol:Administrador')->name('municipios.update');
     Route::delete('/municipios/{municipios}', [MunicipioController::class, 'destroy'])->middleware('rol:Administrador')->name('municipios.destroy');
+    Route::get('/reportes/municipios', [ReporteController::class, 'municipios'])->name('reportes.municipios');
 
     // Líneas
     Route::get('/lineas', [LineaController::class, 'index'])->name('lineas.index');
@@ -53,6 +58,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/lineas/{linea}/edit', [LineaController::class, 'edit'])->middleware('rol:Administrador')->name('lineas.edit');
     Route::put('/lineas/{linea}', [LineaController::class, 'update'])->middleware('rol:Administrador')->name('lineas.update');
     Route::delete('/lineas/{linea}', [LineaController::class, 'destroy'])->middleware('rol:Administrador')->name('lineas.destroy');
+    Route::get('/reportes/lineas', [ReporteController::class, 'lineas'])->name('reportes.lineas');
 
     // Estaciones
     Route::get('/estaciones', [EstacionController::class, 'index'])->name('estaciones.index');
@@ -62,6 +68,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/estaciones/{estacion}/edit', [EstacionController::class, 'edit'])->middleware('rol:Administrador')->name('estaciones.edit');
     Route::put('/estaciones/{estacion}', [EstacionController::class, 'update'])->middleware('rol:Administrador')->name('estaciones.update');
     Route::delete('/estaciones/{estacion}', [EstacionController::class, 'destroy'])->middleware('rol:Administrador')->name('estaciones.destroy');
+    Route::get('/reportes/estaciones', [ReporteController::class, 'estaciones'])->name('reportes.estaciones');
 
     // Accesos
     Route::get('/accesos', [AccesoController::class, 'index'])->name('accesos.index');
@@ -80,6 +87,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/buses/{bus}/edit', [BusController::class, 'edit'])->middleware('rol:Administrador')->name('buses.edit');
     Route::put('/buses/{bus}', [BusController::class, 'update'])->middleware('rol:Administrador')->name('buses.update');
     Route::delete('/buses/{bus}', [BusController::class, 'destroy'])->middleware('rol:Administrador')->name('buses.destroy');
+    Route::get('/reportes/buses', [ReporteController::class, 'buses'])->name('reportes.buses');
 
     // Asignación de buses a líneas
     Route::get('/asignacion-bus', [AsignacionBusLineaController::class, 'index'])->name('asignacion-bus.index');
@@ -101,6 +109,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/recorridos/{recorrido}', [RecorridoController::class, 'destroy'])->middleware('rol:Administrador')->name('recorridos.destroy');
     Route::patch('/recorridos/{id}/iniciar', [RecorridoController::class, 'iniciar'])->middleware('rol:Administrador')->name('recorridos.iniciar');
     Route::patch('/recorridos/{id}/finalizar', [RecorridoController::class, 'finalizar'])->middleware('rol:Administrador')->name('recorridos.finalizar');
+    Route::get('/reportes/recorridos', [ReporteController::class, 'recorridos']) ->name('reportes.recorridos');
 
     // Visitas a estaciones
     Route::get('/visitas', [VisitaEstacionController::class, 'index'])->name('visitas.index');
@@ -121,8 +130,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/alertas/{alerta}', [AlertaController::class, 'destroy'])->middleware('rol:Administrador')->name('alertas.destroy');
     Route::get('/alertas/{id}/asignar-bus', [AlertaController::class, 'asignarBus'])->middleware('rol:Administrador')->name('alertas.asignar-bus');
     Route::post('/alertas/{id}/asignar-bus', [AlertaController::class, 'guardarAsignacionBus'])->middleware('rol:Administrador')->name('alertas.guardar-asignacion');
+    Route::get('/reportes/alertas', [ReporteController::class, 'alertas']) ->name('reportes.alertas');
 
-    // Pilotos (sin Route::resource duplicado)
+    // Pilotos
     Route::get('/pilotos', [PilotoController::class, 'index'])->name('pilotos.index');
     Route::get('/pilotos/create', [PilotoController::class, 'create'])->middleware('rol:Administrador')->name('pilotos.create');
     Route::post('/pilotos', [PilotoController::class, 'store'])->middleware('rol:Administrador')->name('pilotos.store');
@@ -130,6 +140,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/pilotos/{id}/edit', [PilotoController::class, 'edit'])->middleware('rol:Administrador')->name('pilotos.edit');
     Route::put('/pilotos/{id}', [PilotoController::class, 'update'])->middleware('rol:Administrador')->name('pilotos.update');
     Route::delete('/pilotos/{id}', [PilotoController::class, 'destroy'])->middleware('rol:Administrador')->name('pilotos.destroy');
+    Route::get('/reportes/pilotos', [ReporteController::class, 'pilotos'])->name('reportes.pilotos');
 
     // Formación de pilotos
     Route::get('/formacion-pilotos', [FormacionPilotoController::class, 'index'])->name('formacion-pilotos.index');
@@ -158,6 +169,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/guardias/{id}/edit', [GuardiaController::class, 'edit'])->middleware('rol:Administrador')->name('guardias.edit');
     Route::put('/guardias/{id}', [GuardiaController::class, 'update'])->middleware('rol:Administrador')->name('guardias.update');
     Route::delete('/guardias/{id}', [GuardiaController::class, 'destroy'])->middleware('rol:Administrador')->name('guardias.destroy');
+    Route::get('/reportes/guardias', [ReporteController::class, 'guardias']) ->name('reportes.guardias');
 
     // Asignación de guardias: conservar nombre singular
     Route::get('/asignacion-guardia', [AsignacionGuardiaController::class, 'index'])->name('asignacion-guardia.index');
@@ -177,6 +189,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/parqueos/{id}/edit', [ParqueoController::class, 'edit'])->middleware('rol:Administrador')->name('parqueos.edit');
     Route::put('/parqueos/{id}', [ParqueoController::class, 'update'])->middleware('rol:Administrador')->name('parqueos.update');
     Route::delete('/parqueos/{id}', [ParqueoController::class, 'destroy'])->middleware('rol:Administrador')->name('parqueos.destroy');
+    Route::get('/reportes/parqueos', [ReporteController::class, 'parqueos']) ->name('reportes.parqueos');
 
     Route::middleware('rol:Administrador')->group(function () {
         // Usuarios: acceso exclusivo para Administrador.

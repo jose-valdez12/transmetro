@@ -180,6 +180,13 @@
     Gestión de Usuarios
 </a>
 </li>
+
+<li class="navitem">
+<a href="{{ route('reportes.index') }}" class="nav-link">
+    <i class="bi bi-file-earmark-bar-graph me-2"></i>
+    Gestión de Reportes
+</a>
+</li>
                 </ul>
             </div>
 

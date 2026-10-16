@@ -7,31 +7,31 @@
 
     <title>@yield('title', 'Sistema Transmetro')</title>
 
-    {{-- Bootstrap --}}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    {{-- Iconos --}}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-          rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 
-    {{-- Estilos propios --}}
+    <!-- Estilos personalizados -->
     <link rel="stylesheet" href="{{ asset('css/estilos.css') }}">
 </head>
 
 <body>
 
-    {{-- Barra superior --}}
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-transmetro">
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-xl navbar-dark navbar-transmetro shadow-sm">
         <div class="container-fluid px-lg-4">
 
-            <a class="navbar-brand fw-bold" href="{{ url('/') }}">
-
+            <!-- Logo -->
+            <a class="navbar-brand fw-bold d-flex align-items-center gap-2"
+               href="{{ url('/') }}">
+                <i class="bi bi-bus-front-fill fs-4"></i>
                 TRANSMETRO
             </a>
 
-            <button class="navbar-toggler"
-                    type="button"
+            <!-- Botón responsive -->
+            <button class="navbar-toggler" type="button"
                     data-bs-toggle="collapse"
                     data-bs-target="#menuPrincipal"
                     aria-controls="menuPrincipal"
@@ -41,151 +41,217 @@
             </button>
 
             <div class="collapse navbar-collapse" id="menuPrincipal">
-                <ul class="navbar-nav ms-auto">
 
+                <!-- Menú principal -->
+                <ul class="navbar-nav me-auto mb-2 mb-xl-0">
+
+                    <!-- Inicio -->
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('/') }}">
-                            <i class="bi bi-house-door me-1"></i> Inicio
-                        </a>
-                    </li>
-                    <li clas="nav-item">
-                        <!-- BOTONES DE AUTENTICACIÓN -->
-<div class="d-flex align-items-center gap-2">
-
-    @guest
-        <a href="{{ route('login') }}"
-           class="btn btn-primary">
-            <i class="bi bi-box-arrow-in-right me-1"></i>
-            Iniciar sesión
-        </a>
-    @endguest
-
-    @auth
-        <span class="text-muted me-2">
-            <i class="bi bi-person-circle me-1"></i>
-            {{ auth()->user()->nombre }}
-        </span>
-
-        <form action="{{ route('logout') }}" method="POST">
-            @csrf
-
-            <button type="submit"
-                    class="btn btn-outline-danger">
-                <i class="bi bi-box-arrow-right me-1"></i>
-                Cerrar sesión
-            </button>
-        </form>
-    @endauth
-
-</div>
-
-</li>
-
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/municipios') }}">
-                            Municipalidades
+                            <i class="bi bi-house-door me-1"></i>
+                            Inicio
                         </a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/lineas') }}">
-                            Líneas
+                    <!-- Infraestructura -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#"
+                           role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            <i class="bi bi-buildings me-1"></i>
+                            Infraestructura
                         </a>
+
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="{{ url('/municipios') }}">
+                                    <i class="bi bi-geo-alt me-2"></i>
+                                    Municipalidades
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="{{ url('/lineas') }}">
+                                    <i class="bi bi-diagram-3 me-2"></i>
+                                    Líneas
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="{{ url('/estaciones') }}">
+                                    <i class="bi bi-signpost me-2"></i>
+                                    Estaciones
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="{{ url('/accesos') }}">
+                                    <i class="bi bi-door-open me-2"></i>
+                                    Accesos
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="{{ route('parqueos.index') }}">
+                                    <i class="bi bi-p-square me-2"></i>
+                                    Parqueos
+                                </a>
+                            </li>
+                        </ul>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/estaciones') }}">
-                            Estaciones
+                    <!-- Operaciones -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#"
+                           role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            <i class="bi bi-bus-front me-1"></i>
+                            Operaciones
                         </a>
+
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="{{ url('/buses') }}">
+                                    <i class="bi bi-bus-front me-2"></i>
+                                    Buses
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="{{ url('/recorridos') }}">
+                                    <i class="bi bi-map me-2"></i>
+                                    Recorridos
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="{{ url('/alertas') }}">
+                                    <i class="bi bi-exclamation-triangle me-2"></i>
+                                    Alertas
+                                </a>
+                            </li>
+                        </ul>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/accesos') }}">
-                            Accesos
+                    <!-- Personal -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#"
+                           role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            <i class="bi bi-people me-1"></i>
+                            Personal
                         </a>
+
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="{{ url('/pilotos') }}">
+                                    <i class="bi bi-person-badge me-2"></i>
+                                    Pilotos
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="{{ route('guardias.index') }}">
+                                    <i class="bi bi-shield-check me-2"></i>
+                                    Guardias
+                                </a>
+                            </li>
+                        </ul>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/buses') }}">
-                            Buses
+                    <!-- Administración -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#"
+                           role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            <i class="bi bi-gear me-1"></i>
+                            Administración
                         </a>
+
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="{{ route('usuarios.index') }}">
+                                    <i class="bi bi-people me-2"></i>
+                                    Gestión de Usuarios
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="{{ route('reportes.index') }}">
+                                    <i class="bi bi-file-earmark-bar-graph me-2"></i>
+                                    Gestión de Reportes
+                                </a>
+                            </li>
+                        </ul>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/recorridos') }}">
-                            Recorridos
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/alertas') }}">
-                            Alertas
-                        </a>
-                    </li>
-
-                    <li class="navitem">
-                    <a class="nav-link" href="{{url('/pilotos')}}">
-                        Pilotos
-                    </a>
-                    </li>
-
-                    <li class="navitem">
-                        <a class ="nav-link" href="{{ route('guardias.index')}}">
-                            Guardias
-                        </a>
-                    </li>
-
-<li class="navitem">
-    <a class=" nav-link" href="{{ route('parqueos.index') }}" class="nav-link">
-    <i class="bi bi-p-square me-2"></i>
-    Gestión de Parqueos
-</a>
-</li>
-
-<li class="navitem">
-    <a href="{{ route('usuarios.index') }}" class="nav-link">
-    <i class="bi bi-people me-2"></i>
-    Gestión de Usuarios
-</a>
-</li>
-
-<li class="navitem">
-<a href="{{ route('reportes.index') }}" class="nav-link">
-    <i class="bi bi-file-earmark-bar-graph me-2"></i>
-    Gestión de Reportes
-</a>
-</li>
                 </ul>
-            </div>
 
+                <!-- Usuario y sesión -->
+                <div class="d-flex flex-column flex-xl-row align-items-xl-center gap-3 mt-3 mt-xl-0">
+
+                    @guest
+                        <a href="{{ route('login') }}"
+                           class="btn btn-success btn-sm px-3">
+                            <i class="bi bi-box-arrow-in-right me-1"></i>
+                            Iniciar sesión
+                        </a>
+                    @endguest
+
+                    @auth
+                        <div class="usuario-navbar d-flex align-items-center gap-2">
+                            <i class="bi bi-person-circle fs-4"></i>
+
+                            <div class="d-flex flex-column lh-sm">
+                                <small>Usuario conectado</small>
+                                <strong>{{ auth()->user()->nombre }}</strong>
+                            </div>
+                        </div>
+
+                        <form action="{{ route('logout') }}" method="POST" class="m-0">
+                            @csrf
+
+                            <button type="submit"
+                                    class="btn btn-outline-light btn-sm px-3">
+                                <i class="bi bi-box-arrow-right me-1"></i>
+                                Cerrar sesión
+                            </button>
+                        </form>
+                    @endauth
+
+                </div>
+
+            </div>
         </div>
     </nav>
 
-    {{-- Encabezado de página --}}
+    <!-- Encabezado -->
     <header class="page-header">
         <div class="container-fluid px-lg-4">
-            <p class="page-subtitle mb-1">SISTEMA DE GESTIÓN DE TRANSPORTE</p>
-            <h1 class="page-title mb-0">@yield('title', 'Panel de administración')</h1>
+            <p class="page-subtitle mb-1">
+                SISTEMA DE GESTIÓN DE TRANSPORTE
+            </p>
+
+            <h1 class="page-title mb-0">
+                @yield('title', 'Panel de administración')
+            </h1>
         </div>
     </header>
 
-    {{-- Contenido de cada vista --}}
+    <!-- Contenido -->
     <main class="container-fluid px-3 px-lg-4 py-4">
         @yield('content')
     </main>
 
-    {{-- Pie de página --}}
+    <!-- Pie de página -->
     <footer class="footer-transmetro">
         <div class="container-fluid px-lg-4">
             Sistema de Gestión Transmetro
-            <span class="mx-2">|</span>
-
         </div>
     </footer>
 
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
-

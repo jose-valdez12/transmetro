@@ -315,5 +315,328 @@ textarea.form-control {
     .table td .btn {
         margin: 2px;
     }
+
+
+
+
+:root {
+    --azul-oscuro: #10243a;
+    --azul-principal: #205781;
+    --azul-claro: #eaf3fa;
+    --turquesa: #20c9b5;
+    --fondo: #f3f6fa;
+    --texto: #263445;
+    --borde: #dfe7f0;
 }
 
+/* ==========================================
+   BARRA DE NAVEGACIÓN
+========================================== */
+
+.navbar-transmetro {
+    background: linear-gradient(
+        110deg,
+        #10243a 0%,
+        #173b59 65%,
+        #205781 100%
+    );
+
+    padding: 13px 0;
+    box-shadow: 0 4px 18px rgba(16, 36, 58, 0.18);
+}
+
+/* Logo */
+
+.navbar-transmetro .navbar-brand {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+}
+
+.navbar-transmetro .navbar-brand i {
+    color: var(--turquesa);
+}
+
+.navbar-transmetro .navbar-brand:hover {
+    color: #ffffff;
+}
+
+/* Opciones principales */
+
+.navbar-transmetro .nav-link {
+    color: #e9f2fa;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 10px 12px !important;
+    margin: 0 2px;
+    border-radius: 8px;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.navbar-transmetro .nav-link:hover,
+.navbar-transmetro .nav-link:focus,
+.navbar-transmetro .nav-link.show {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.navbar-transmetro .nav-link i {
+    color: var(--turquesa);
+}
+
+/* ==========================================
+   MENÚS DESPLEGABLES
+========================================== */
+
+.navbar-transmetro .dropdown-menu {
+    background: #ffffff;
+    border: 1px solid #e4ebf3;
+    border-radius: 12px;
+
+    padding: 8px;
+    min-width: 230px;
+
+    box-shadow: 0 12px 30px rgba(
+        16, 36, 58, 0.16
+    );
+}
+
+.navbar-transmetro .dropdown-item {
+    color: #263445;
+    font-size: 13px;
+    font-weight: 500;
+
+    padding: 11px 13px;
+    border-radius: 7px;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.navbar-transmetro .dropdown-item i {
+    color: #168f8c;
+}
+
+.navbar-transmetro .dropdown-item:hover,
+.navbar-transmetro .dropdown-item:focus {
+    background: #eaf7f5;
+    color: #10243a;
+}
+
+/* ==========================================
+   USUARIO CONECTADO
+========================================== */
+
+.usuario-navbar {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.12);
+
+    padding: 8px 14px;
+    border: 1px solid rgba(
+        255, 255, 255, 0.16
+    );
+
+    border-radius: 10px;
+    white-space: nowrap;
+}
+
+.usuario-navbar > i {
+    color: var(--turquesa);
+}
+
+.usuario-navbar small {
+    color: #c9dce9;
+    font-size: 10px;
+    font-weight: 500;
+}
+
+.usuario-navbar strong {
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* ==========================================
+   BOTÓN CERRAR SESIÓN
+========================================== */
+
+.navbar-transmetro .btn-outline-light {
+    color: #ffffff;
+    background: transparent;
+    border: 1px solid rgba(
+        255, 255, 255, 0.55
+    );
+
+    border-radius: 9px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 9px 14px;
+}
+
+.navbar-transmetro .btn-outline-light:hover {
+    background: #ffffff;
+    color: #10243a;
+    border-color: #ffffff;
+}
+
+/* ==========================================
+   ENCABEZADO
+========================================== */
+
+.page-header {
+    background: linear-gradient(
+        180deg,
+        #ffffff,
+        #f9fbfe
+    );
+
+    padding: 26px 0;
+    border-bottom: 1px solid var(--borde);
+}
+
+.page-subtitle {
+    color: #168f8c;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+}
+
+.page-title {
+    color: var(--azul-oscuro);
+    font-size: 28px;
+    font-weight: 750;
+}
+
+/* ==========================================
+   TARJETAS
+========================================== */
+
+.card {
+    border: 1px solid var(--borde);
+    border-radius: 13px;
+
+    box-shadow: 0 5px 20px rgba(
+        16, 36, 58, 0.06
+    );
+}
+
+.card-header {
+    background: #ffffff;
+    color: var(--azul-oscuro);
+}
+
+/* ==========================================
+   BOTONES
+========================================== */
+
+.btn-primary {
+    background: #205781;
+    border-color: #205781;
+}
+
+.btn-primary:hover {
+    background: #163e5d;
+    border-color: #163e5d;
+}
+
+.btn-success {
+    background: #168f8c;
+    border-color: #168f8c;
+}
+
+.btn-success:hover {
+    background: #117674;
+    border-color: #117674;
+}
+
+/* ==========================================
+   TABLAS
+========================================== */
+
+.table thead th {
+    background: #173b59;
+    color: #ffffff;
+    border-color: #30516b;
+}
+
+.table tbody tr:hover td {
+    background: #edf7f8;
+}
+
+/* ==========================================
+   DISEÑO RESPONSIVE
+========================================== */
+
+@media (max-width: 1199.98px) {
+
+    .navbar-transmetro .navbar-collapse {
+        padding-top: 15px;
+    }
+
+    .navbar-transmetro .nav-link {
+        margin: 3px 0;
+    }
+
+    .navbar-transmetro .dropdown-menu {
+        box-shadow: none;
+        border-radius: 9px;
+    }
+
+    .usuario-navbar {
+        width: fit-content;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .navbar-transmetro .navbar-brand {
+        font-size: 17px;
+    }
+
+    .page-title {
+        font-size: 23px;
+    }
+
+    .page-header {
+        padding: 20px 0;
+    }
+}
+
+
+}
+
+/* ==========================================
+   CORRECCIÓN DE VISIBILIDAD DEL USUARIO
+========================================== */
+
+.navbar-transmetro .usuario-navbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #25465f;
+    border: 1px solid #42647c;
+    border-radius: 10px;
+    padding: 8px 14px;
+    opacity: 1;
+}
+
+.navbar-transmetro .usuario-navbar small {
+    color: #dcecf5 !important;
+    opacity: 1 !important;
+}
+
+.navbar-transmetro .usuario-navbar strong {
+    color: #ffffff !important;
+    font-weight: 700;
+    opacity: 1 !important;
+}
+
+.navbar-transmetro .usuario-navbar i {
+    color: #20c9b5 !important;
+    opacity: 1 !important;
+}

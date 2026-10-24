@@ -24,8 +24,8 @@
         <div class="container-fluid px-lg-4">
 
             <!-- Logo -->
-            <a class="navbar-brand fw-bold d-flex align-items-center gap-2"
-               href="{{ url('/') }}">
+            <a class="navbar-brand fw-bold d-flex align-items-center gap-2">
+
                 <i class="bi bi-bus-front-fill fs-4"></i>
                 TRANSMETRO
             </a>
